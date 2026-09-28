@@ -1,0 +1,238 @@
+/* ============================================================
+
+   EXTRA POLISH — Visual refinements, dark mode specifics,
+   micro-details, section alt backgrounds, horizontal overflow fix
+   ============================================================ */
+
+/* ── Prevent horizontal scroll ───────────────────────────── */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ── Consistent section alt backgrounds ─────────────────── */
+.section-alt {
+  background-color: var(--md-surface-container-low);
+}
+
+[data-theme="dark"] .section-alt {
+  background-color: var(--md-surface-container-low);
+}
+
+/* ── Skills grid hover line accent ─────────────────────────*/
+.skill-group {
+  border-top: 3px solid transparent;
+  transition:
+    box-shadow var(--duration-medium2) var(--ease-standard),
+    border-color var(--duration-medium2) var(--ease-standard);
+}
+
+.skill-group:hover {
+  border-color: var(--md-primary);
+}
+
+/* ── Project card category accent bar ──────────────────────*/
+.project-card {
+  border-top: 3px solid transparent;
+  transition:
+    box-shadow var(--duration-medium2) var(--ease-standard),
+    transform var(--duration-medium2) var(--ease-standard),
+    opacity var(--duration-medium2) var(--ease-standard),
+    border-color var(--duration-medium2) var(--ease-standard);
+}
+
+.project-card:hover {
+  border-color: var(--md-primary);
+}
+
+/* ── Analytics visual pulse ring on hover ───────────────── */
+.analytics-visual:hover {
+  box-shadow: var(--shadow-5), 0 0 0 4px rgba(103,80,164,0.12);
+  transform: translateY(-2px);
+}
+
+/* ── Section header divider accent ─────────────────────── */
+.section-label + h2,
+.section-label + .type-headline-large {
+  margin-top: 0;
+}
+
+/* ── Hero headline gradient (subtle) ────────────────────── */
+.hero__headline .accent {
+  background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Dark mode: keep gradient visible */
+[data-theme="dark"] .hero__headline .accent {
+  background: linear-gradient(135deg, var(--md-primary), #EFB8C8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── "About" statement highlight ─────────────────────────── */
+.about__statement .highlight {
+  background: linear-gradient(135deg, var(--md-primary), var(--md-tertiary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+}
+
+/* ── CTA buttons inside primary container ───────────────── */
+.cta-section .btn-tonal {
+  background-color: rgba(103,80,164,0.15);
+  color: var(--md-on-primary-container);
+}
+.cta-section .btn-tonal:hover {
+  background-color: rgba(103,80,164,0.25);
+}
+
+/* ── Nav logo mark text color fix ───────────────────────── */
+.nav-logo__mark {
+  color: #FFFFFF;
+}
+
+/* ── Code block body dark mode ─────────────────────────── */
+[data-theme="dark"] .code-block {
+  background-color: #0D1117;
+  border-color: var(--md-outline-variant);
+}
+
+[data-theme="dark"] .code-block__header {
+  background-color: #161B22;
+  border-color: #30363D;
+}
+
+[data-theme="dark"] .code-block__body {
+  color: #E6EDF3;
+}
+
+/* ── Analytics visual dark mode adjustments ─────────────── */
+[data-theme="dark"] .analytics-visual {
+  box-shadow: var(--shadow-4), 0 0 0 1px rgba(208,188,255,0.08);
+}
+
+[data-theme="dark"] .kpi-card {
+  background-color: var(--md-surface-container-high);
+}
+
+[data-theme="dark"] .chart-container {
+  background-color: var(--md-surface-container-highest);
+}
+
+/* ── Edu card badge dark mode ──────────────────────────── */
+[data-theme="dark"] .edu-badge {
+  background-color: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+/* ── Process step content last child padding removal ─────── */
+.process-timeline .process-step:last-child .process-step__content {
+  padding-bottom: 0;
+}
+
+/* ── Focus ring for cards ────────────────────────────────── */
+.project-card:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 3px;
+}
+
+/* ── Navigation active indicator dot ────────────────────── */
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--md-primary);
+}
+
+/* ── Back to top improvements ────────────────────────────── */
+.back-to-top:hover svg {
+  transform: translateY(-2px);
+  transition: transform var(--duration-short4) var(--ease-standard);
+}
+
+/* ── Chip hover for filter ───────────────────────────────── */
+.chip-filter:active {
+  transform: scale(0.96);
+}
+
+/* ── Smooth stat divider ─────────────────────────────────── */
+.stats-section .stat-divider {
+  display: none; /* Removing stat divider, use grid gap instead */
+}
+
+/* ── Stat number with shine ──────────────────────────────── */
+.stat-number {
+  position: relative;
+  display: inline-block;
+}
+
+/* ── Stats gap fix (3-col grid, no dividers) ─────────────── */
+.stats-grid {
+  position: relative;
+}
+
+.stats-grid::before,
+.stats-grid::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: var(--md-outline-variant);
+  pointer-events: none;
+}
+
+.stats-grid::before {
+  left: 33.33%;
+  transform: translateX(-50%);
+}
+
+.stats-grid::after {
+  left: 66.66%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .stats-grid::before,
+  .stats-grid::after {
+    display: none;
+  }
+}
+
+/* ── SQL section responsive grid override ────────────────── */
+@media (max-width: 900px) {
+  #sql-showcase .container > div,
+  #de-exploration .container > div {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Mobile menu: visible overflow issue fix ─────────────── */
+.nav-mobile__drawer {
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+/* ── Chip category uppercase ─────────────────────────────── */
+.chip-category {
+  text-transform: uppercase;
+}
+
+/* ── Chart line animation reset on page hide ─────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .chart-line {
+    stroke-dasharray: 320;
+    stroke-dashoffset: 320;
+  }
+}

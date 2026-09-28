@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="sql-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00758F"/>
+      <stop offset="100%" stop-color="#005266"/>
+    </linearGradient>
+    <linearGradient id="sql-badge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9800"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </linearGradient>
+  </defs>
+  <!-- Database Stack -->
+  <g fill="url(#sql-grad)">
+    <!-- Top cylinder -->
+    <ellipse cx="64" cy="24" rx="44" ry="14"/>
+    <path d="M20 24v22c0 7.7 19.7 14 44 14s44-6.3 44-14V24c0 7.7-19.7 14-44 14S20 31.7 20 24z"/>
+    <!-- Middle cylinder -->
+    <path d="M20 54v22c0 7.7 19.7 14 44 14s44-6.3 44-14V54c0 7.7-19.7 14-44 14S20 61.7 20 54z"/>
+    <!-- Bottom cylinder -->
+    <path d="M20 84v22c0 7.7 19.7 14 44 14s44-6.3 44-14V84c0 7.7-19.7 14-44 14S20 91.7 20 84z"/>
+  </g>
+  <!-- Highlight on top -->
+  <ellipse cx="64" cy="24" rx="38" ry="10" fill="#29B6F6" opacity="0.35"/>
+  <!-- SQL Text Badge -->
+  <rect x="42" y="66" width="76" height="38" rx="8" fill="url(#sql-badge)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.3))"/>
+  <text x="80" y="93" font-family="'Roboto', 'Segoe UI', -apple-system, sans-serif" font-weight="900" font-size="24" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">SQL</text>
+</svg>
