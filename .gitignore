@@ -5,3 +5,7 @@
 # OS generated files
 .DS_Store
 Thumbs.db
+
+node_modules/
+js/hero-avatar.js
+js/hero-avatar-*.js

@@ -45,10 +45,9 @@ html, body {
   border-color: var(--md-primary);
 }
 
-/* ── Analytics visual pulse ring on hover ───────────────── */
-.analytics-visual:hover {
-  box-shadow: var(--shadow-5), 0 0 0 4px rgba(103,80,164,0.12);
-  transform: translateY(-2px);
+/* ── Profile card hover polish (hero composition handles motion) ─ */
+.hero-profile__card-wrap.profile-card:hover {
+  transform: none;
 }
 
 /* ── Section header divider accent ─────────────────────── */
@@ -112,9 +111,9 @@ html, body {
   color: #E6EDF3;
 }
 
-/* ── Analytics visual dark mode adjustments ─────────────── */
-[data-theme="dark"] .analytics-visual {
-  box-shadow: var(--shadow-4), 0 0 0 1px rgba(208,188,255,0.08);
+/* ── Profile card dark mode adjustments ──────────────────── */
+[data-theme="dark"] .hero-profile__glow {
+  opacity: 0.62;
 }
 
 [data-theme="dark"] .kpi-card {
@@ -131,10 +130,6 @@ html, body {
   color: var(--md-on-primary-container);
 }
 
-/* ── Process step content last child padding removal ─────── */
-.process-timeline .process-step:last-child .process-step__content {
-  padding-bottom: 0;
-}
 
 /* ── Focus ring for cards ────────────────────────────────── */
 .project-card:focus-visible {

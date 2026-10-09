@@ -475,8 +475,8 @@ const PROJECTS = [
   // ── 05. Swiggy Sales Analysis ──────────────────────────────
   {
     id: 'swiggy-sales',
-    title: 'Swiggy Sales Analysis Dashboard',
-    subtitle: 'Food Tech Business Intelligence',
+    title: 'Swiggy Sales Analysis',
+    subtitle: 'End-to-End Data Analytics Project',
     category: 'DATA ANALYTICS',
     categories: ['data-analytics', 'data', 'analytics'],
     filterCategories: ['data-analytics'],
@@ -484,41 +484,36 @@ const PROJECTS = [
     size: 'compact',
     visualType: 'screenshot',
     accentColor: 'var(--md-primary)',
-    shortDesc: 'Sales analytics platform analyzing restaurant performance, city-level distribution, order trends, and revenue patterns for food delivery operations.',
-    description: 'Sales analytics platform analyzing restaurant performance, city-level distribution, order trends, and revenue patterns for food delivery operations.',
-    techs: ['Python', 'SQL (MySQL)', 'Power BI', 'Pandas', 'Excel'],
+    shortDesc: 'An end-to-end analysis of Swiggy sales data using Python, SQL, and Power BI to uncover revenue trends, location performance, category-level patterns, and actionable business insights.',
+    description: 'An end-to-end analysis of Swiggy sales data using Python, SQL, and Power BI to uncover revenue trends, location performance, category-level patterns, and actionable business insights.',
+    techs: ['Python', 'Pandas', 'SQL', 'Power BI', 'DAX'],
     technologies: [
       'Power BI Desktop',
-      'SQL (MySQL)',
+      'DAX',
+      'SQL (MySQL / SQLite)',
       'Python 3.x',
       'Pandas',
       'NumPy',
-      'Matplotlib',
-      'Microsoft Excel'
+      'Matplotlib'
     ],
     techCategories: {
-      'Dashboard & BI': ['Power BI Desktop', 'DAX Measures', 'Geographic Visuals'],
-      'Database & Modeling': ['SQL (MySQL)', 'Relational Schema Design', 'Aggregations'],
-      'Data Prep & EDA': ['Python (Pandas, NumPy)', 'Matplotlib', 'Microsoft Excel']
+      'Dashboard & BI': ['Power BI Desktop', 'DAX Measures', 'Executive Visuals'],
+      'Database & Modeling': ['SQL (MySQL / SQLite)', 'Relational Schema Design', 'CTEs & Window Functions'],
+      'Data Prep & EDA': ['Python (Pandas, NumPy)', 'Feature Engineering', 'Matplotlib']
     },
     github: 'https://github.com/Adiitya09/Swiggy-Sales-Analysis.git',
     kpis: [
-      { label: 'Cuisine Categories', value: '8+ Types' },
-      { label: 'Cities Analyzed', value: '15+ Cities' },
-      { label: 'Key Metrics', value: '12 KPIs' },
-      { label: 'Tech Stack', value: 'SQL + Power BI' }
+      { label: 'Total Revenue', value: '₹53.00M' },
+      { label: 'Total Orders', value: '197.4K' },
+      { label: 'Avg Order Value', value: '₹268.50' },
+      { label: 'Partner Restaurants', value: '993 Active' }
     ],
-    image: 'assets/Projects/swiggy-overview.jpg',
+    image: 'assets/Projects/swiggy-sales-analysis.png',
     images: [
       {
-        src: 'assets/Projects/swiggy-overview.jpg',
-        title: 'Swiggy Food Delivery Sales & Revenue Overview',
-        caption: 'Power BI sales performance dashboard tracking total orders, GMV revenue, average order values, and category trends.'
-      },
-      {
-        src: 'assets/Projects/swiggy-city-analysis.jpg',
-        title: 'City-Level Geographic & Delivery Performance',
-        caption: 'Geographic distribution analytics tracking delivery turnaround times, regional revenue contribution, and customer satisfaction.'
+        src: 'assets/Projects/swiggy-sales-analysis.png',
+        title: 'Swiggy Sales Analysis Power BI Dashboard',
+        caption: 'Authentic executive dashboard tracking total orders, ₹53.00M GMV revenue, ₹268.50 AOV, and top cities.'
       }
     ],
     overview: 'A multi-dimensional sales analysis project built around food delivery data — exploring order volume trends, restaurant performance tiers, city-level distribution, and revenue patterns.',

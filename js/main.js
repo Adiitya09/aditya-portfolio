@@ -142,7 +142,7 @@ const Nav = (() => {
 
 const Reveals = (() => {
   function init() {
-    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .process-step');
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -206,10 +206,6 @@ const Counter = (() => {
   return { init };
 })();
 
-
-/* ═══════════════════════════════════════════════════════════
-   HERO CHART ANIMATIONS
-   ═══════════════════════════════════════════════════════════ */
 
 const HeroCharts = (() => {
   function animateLine() {
@@ -483,36 +479,6 @@ const BackToTop = (() => {
 })();
 
 
-/* ═══════════════════════════════════════════════════════════
-   SQL COPY BUTTON
-   ═══════════════════════════════════════════════════════════ */
-
-const SqlCopy = (() => {
-  function init() {
-    const btn = document.getElementById('copy-sql');
-    if (!btn) return;
-
-    btn.addEventListener('click', async () => {
-      const code = document.querySelector('.sql-code-content')?.textContent?.trim();
-      if (!code) return;
-
-      try {
-        await navigator.clipboard.writeText(code);
-        const origLabel = btn.textContent;
-        btn.textContent = 'Copied!';
-        btn.style.color = 'var(--md-primary)';
-        setTimeout(() => {
-          btn.textContent = origLabel;
-          btn.style.color = '';
-        }, 2000);
-      } catch {
-        // Fallback — select text
-      }
-    });
-  }
-
-  return { init };
-})();
 
 
 /* ═══════════════════════════════════════════════════════════
@@ -828,6 +794,379 @@ const Skills = (() => {
 
 
 /* ═══════════════════════════════════════════════════════════
+   SQL ANALYTICS WORKSPACE (Two-Column Interactive Showcase)
+   ═══════════════════════════════════════════════════════════ */
+
+const SqlShowcase = (() => {
+  const queries = {
+    '01': {
+      question: 'Which customers are from Mumbai?',
+      raw: `SELECT
+    customer_name,
+    city
+FROM customers
+WHERE city = 'Mumbai';`,
+      highlighted: `<span class="kw">SELECT</span>
+    customer_name,
+    city
+<span class="kw">FROM</span> customers
+<span class="kw">WHERE</span> city = <span class="str">'Mumbai'</span>;`,
+      lines: 5,
+      explanation: 'Filters customer records based on location.',
+      insight: 'Useful for analyzing customers by geographic segment.',
+      concepts: ['SELECT', 'WHERE', 'Filtering']
+    },
+    '02': {
+      question: 'Which categories generate the most revenue?',
+      raw: `SELECT
+    category,
+    SUM(amount) AS total_revenue
+FROM orders
+GROUP BY category
+ORDER BY total_revenue DESC;`,
+      highlighted: `<span class="kw">SELECT</span>
+    category,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_revenue
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> category
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>;`,
+      lines: 6,
+      explanation: 'Aggregates revenue for each category.',
+      insight: 'Helps identify the categories contributing most to overall revenue.',
+      concepts: ['SUM()', 'GROUP BY', 'ORDER BY']
+    },
+    '03': {
+      question: 'Which customers have placed the most orders?',
+      raw: `SELECT
+    c.customer_name,
+    COUNT(o.order_id) AS total_orders
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+ORDER BY total_orders DESC;`,
+      highlighted: `<span class="kw">SELECT</span>
+    <span class="col">c</span>.customer_name,
+    <span class="fn">COUNT</span>(<span class="col">o</span>.order_id) <span class="kw">AS</span> total_orders
+<span class="kw">FROM</span> customers c
+<span class="kw">JOIN</span> orders o
+    <span class="kw">ON</span> <span class="col">c</span>.customer_id = <span class="col">o</span>.customer_id
+<span class="kw">GROUP BY</span> <span class="col">c</span>.customer_name
+<span class="kw">ORDER BY</span> total_orders <span class="kw">DESC</span>;`,
+      lines: 8,
+      explanation: 'Combines customer and order information.',
+      insight: 'Helps identify high-activity customers.',
+      concepts: ['JOIN', 'COUNT()', 'GROUP BY']
+    },
+    '04': {
+      question: 'Which cities generated more than ₹50,000 in revenue?',
+      raw: `SELECT
+    city,
+    SUM(amount) AS total_revenue
+FROM orders
+GROUP BY city
+HAVING SUM(amount) > 50000
+ORDER BY total_revenue DESC;`,
+      highlighted: `<span class="kw">SELECT</span>
+    city,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_revenue
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> city
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(amount) > <span class="num">50000</span>
+<span class="kw">ORDER BY</span> total_revenue <span class="kw">DESC</span>;`,
+      lines: 6,
+      explanation: 'Groups revenue by city and filters groups using HAVING.',
+      insight: 'Highlights cities with higher revenue contribution.',
+      concepts: ['GROUP BY', 'HAVING', 'SUM()']
+    },
+    '05': {
+      question: 'Which customers generated more than ₹50,000 in sales?',
+      raw: `WITH customer_sales AS (
+    SELECT
+        customer_id,
+        SUM(amount) AS total_sales
+    FROM orders
+    GROUP BY customer_id
+)
+
+SELECT
+    customer_id,
+    total_sales
+FROM customer_sales
+WHERE total_sales > 50000;`,
+      highlighted: `<span class="kw">WITH</span> customer_sales <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        customer_id,
+        <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total_sales
+    <span class="kw">FROM</span> orders
+    <span class="kw">GROUP BY</span> customer_id
+)
+
+<span class="kw">SELECT</span>
+    customer_id,
+    total_sales
+<span class="kw">FROM</span> customer_sales
+<span class="kw">WHERE</span> total_sales > <span class="num">50000</span>;`,
+      lines: 12,
+      explanation: 'Uses a Common Table Expression to separate the aggregation step from the filtering step.',
+      insight: 'Makes multi-step analytical queries easier to read and maintain.',
+      concepts: ['CTE', 'WITH', 'Aggregation']
+    },
+    '06': {
+      question: 'Which products have prices above the average product price?',
+      raw: `SELECT
+    product_name,
+    price
+FROM products
+WHERE price > (
+    SELECT AVG(price)
+    FROM products
+)
+ORDER BY price DESC;`,
+      highlighted: `<span class="kw">SELECT</span>
+    product_name,
+    price
+<span class="kw">FROM</span> products
+<span class="kw">WHERE</span> price > (
+    <span class="kw">SELECT</span> <span class="fn">AVG</span>(price)
+    <span class="kw">FROM</span> products
+)
+<span class="kw">ORDER BY</span> price <span class="kw">DESC</span>;`,
+      lines: 8,
+      explanation: 'Uses a subquery to calculate the average price before filtering products.',
+      insight: 'Identifies products priced above the overall average.',
+      concepts: ['Subquery', 'AVG()', 'WHERE']
+    },
+    '07': {
+      question: 'Which products rank highest within each category?',
+      raw: `SELECT
+    product_name,
+    category,
+    sales,
+    RANK() OVER (
+        PARTITION BY category
+        ORDER BY sales DESC
+    ) AS category_rank
+FROM products;`,
+      highlighted: `<span class="kw">SELECT</span>
+    product_name,
+    category,
+    sales,
+    <span class="fn">RANK</span>() <span class="kw">OVER</span> (
+        <span class="kw">PARTITION BY</span> category
+        <span class="kw">ORDER BY</span> sales <span class="kw">DESC</span>
+    ) <span class="kw">AS</span> category_rank
+<span class="kw">FROM</span> products;`,
+      lines: 9,
+      explanation: 'Ranks products separately within each category.',
+      insight: 'Helps compare product performance within categories.',
+      concepts: ['RANK()', 'OVER()', 'PARTITION BY']
+    },
+    '08': {
+      question: 'How does revenue change month by month?',
+      raw: `SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    SUM(amount) AS monthly_revenue
+FROM orders
+GROUP BY month
+ORDER BY month;`,
+      highlighted: `<span class="kw">SELECT</span>
+    <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, order_date) <span class="kw">AS</span> month,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> monthly_revenue
+<span class="kw">FROM</span> orders
+<span class="kw">GROUP BY</span> month
+<span class="kw">ORDER BY</span> month;`,
+      lines: 6,
+      explanation: 'Groups revenue by month to identify trends over time.',
+      insight: 'Useful for understanding monthly sales patterns.',
+      concepts: ['DATE_TRUNC()', 'GROUP BY', 'ORDER BY']
+    }
+  };
+
+  let currentKey = '01';
+  let copyTimeout = null;
+
+  function render(key) {
+    const q = queries[key];
+    if (!q) return;
+    currentKey = key;
+
+    const contentEl = document.getElementById('sql-showcase-content');
+    const questionEl = document.getElementById('sql-question');
+    const innerEl = document.getElementById('sql-code-inner');
+    const linesEl = document.getElementById('sql-lines');
+    const explanationEl = document.getElementById('sql-explanation');
+    const insightEl = document.getElementById('sql-insight');
+    const conceptsEl = document.getElementById('sql-concepts');
+
+    if (contentEl) contentEl.classList.add('fade-out');
+
+    setTimeout(() => {
+      if (questionEl) questionEl.textContent = q.question;
+      if (innerEl) innerEl.innerHTML = q.highlighted;
+      if (linesEl) {
+        let linesHtml = '';
+        for (let i = 1; i <= q.lines; i++) {
+          const padded = String(i).padStart(2, '0');
+          linesHtml += `<span>${padded}</span>`;
+        }
+        linesEl.innerHTML = linesHtml;
+      }
+      if (explanationEl) explanationEl.textContent = q.explanation;
+      if (insightEl) insightEl.textContent = q.insight;
+      if (conceptsEl) {
+        conceptsEl.innerHTML = q.concepts
+          .map(c => `<span class="sql-concept-chip">${c}</span>`)
+          .join('');
+      }
+      if (contentEl) contentEl.classList.remove('fade-out');
+    }, 120);
+  }
+
+  function init() {
+    const navItems = document.querySelectorAll('.sql-nav-item');
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const key = item.dataset.query;
+        if (!key || key === currentKey) return;
+
+        navItems.forEach(ni => {
+          ni.classList.remove('active');
+          ni.setAttribute('aria-selected', 'false');
+        });
+        item.classList.add('active');
+        item.setAttribute('aria-selected', 'true');
+
+        render(key);
+      });
+    });
+
+    const copyBtn = document.getElementById('sql-copy-btn');
+    const copyText = document.getElementById('sql-copy-text');
+    const copyIcon = document.getElementById('sql-copy-icon');
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const currentQuery = queries[currentKey];
+        if (!currentQuery) return;
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(currentQuery.raw);
+          } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = currentQuery.raw;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+          }
+
+          if (copyText) copyText.textContent = '✓ Copied';
+          if (copyIcon) copyIcon.style.display = 'none';
+          copyBtn.style.borderColor = 'var(--md-primary)';
+          copyBtn.style.color = 'var(--md-primary)';
+
+          if (copyTimeout) clearTimeout(copyTimeout);
+          copyTimeout = setTimeout(() => {
+            if (copyText) copyText.textContent = 'Copy';
+            if (copyIcon) copyIcon.style.display = '';
+            copyBtn.style.borderColor = '';
+            copyBtn.style.color = '';
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy query:', err);
+        }
+      });
+    }
+  }
+
+  return { init, render };
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   HERO PROFILE — Subtle mouse parallax
+   ═══════════════════════════════════════════════════════════ */
+
+const HeroProfile = (() => {
+  let portraitWrap = null;
+  let orbsEl = null;
+  let heroSection = null;
+
+  // Lerp targets
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+  let orbTargetX = 0, orbTargetY = 0;
+  let orbCurrentX = 0, orbCurrentY = 0;
+
+  const MAX_PORTRAIT = 4;   // px ±
+  const MAX_ORBS = 8;       // px ±
+  const LERP_FACTOR = 0.08; // smoothness (lower = smoother)
+
+  let rafId = null;
+  let isInHero = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function onMouseMove(e) {
+    if (!heroSection) return;
+    const rect = heroSection.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    // Normalized -1 to 1
+    const nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (rect.width / 2)));
+    const ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (rect.height / 2)));
+
+    targetX = nx * MAX_PORTRAIT;
+    targetY = ny * MAX_PORTRAIT;
+    orbTargetX = -nx * MAX_ORBS;
+    orbTargetY = -ny * MAX_ORBS;
+  }
+
+  function onMouseLeave() {
+    targetX = 0; targetY = 0;
+    orbTargetX = 0; orbTargetY = 0;
+  }
+
+  function animate() {
+    currentX = lerp(currentX, targetX, LERP_FACTOR);
+    currentY = lerp(currentY, targetY, LERP_FACTOR);
+    orbCurrentX = lerp(orbCurrentX, orbTargetX, LERP_FACTOR * 0.7);
+    orbCurrentY = lerp(orbCurrentY, orbTargetY, LERP_FACTOR * 0.7);
+
+    if (portraitWrap) {
+      portraitWrap.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px)`;
+    }
+    if (orbsEl) {
+      orbsEl.style.transform = `translate(${orbCurrentX.toFixed(2)}px, ${orbCurrentY.toFixed(2)}px)`;
+    }
+
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function init() {
+    heroSection = document.getElementById('hero');
+    portraitWrap = document.getElementById('hero-portrait-wrap');
+    orbsEl = document.querySelector('#hero-profile-visual .hero-profile__orbs');
+
+    if (!heroSection || !portraitWrap) return;
+
+    // Only add parallax on non-touch devices
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      heroSection.addEventListener('mousemove', onMouseMove, { passive: true });
+      heroSection.addEventListener('mouseleave', onMouseLeave, { passive: true });
+      rafId = requestAnimationFrame(animate);
+    }
+  }
+
+  return { init };
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
    INIT
    ═══════════════════════════════════════════════════════════ */
 
@@ -861,12 +1200,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Number counters
   Counter.init();
 
-  // Hero charts
+  // Hero profile & charts
+  HeroProfile.init();
   HeroCharts.init();
 
   // Back to top
   BackToTop.init();
 
-  // SQL copy
-  SqlCopy.init();
+  // SQL Showcase
+  SqlShowcase.init();
 });
