@@ -44,95 +44,189 @@ const Theme = (() => {
    NAVIGATION
    ═══════════════════════════════════════════════════════════ */
 
+/* Navigation Configuration: Single Source of Truth */
+const NAV_CONFIG = [
+  { label: 'Home', id: 'hero', href: '#hero', pageHref: 'index.html#hero' },
+  { label: 'About', id: 'about', href: '#about', pageHref: 'index.html#about' },
+  { label: 'Skills', id: 'skills', href: '#skills', pageHref: 'index.html#skills' },
+  { label: 'Projects', id: 'projects', href: '#projects', pageHref: 'projects.html' },
+  { label: 'SQL', id: 'sql-showcase', href: '#sql-showcase', pageHref: 'index.html#sql-showcase' },
+  { label: 'Education', id: 'education', href: '#education', pageHref: 'index.html#education' },
+  { label: 'Contact', id: 'contact', href: '#contact', pageHref: 'index.html#contact' }
+];
+
 const Nav = (() => {
-  let header, mobileMenu, mobileBackdrop, mobileDrawer, mobileToggle;
+  let header, mobileMenu, mobileBackdrop, mobileToggle;
   let isOpen = false;
-  const SCROLL_THRESHOLD = 20;
+  let isClickScrolling = false;
+  let scrollTimeout = null;
 
   function init() {
     header = document.querySelector('.site-header');
-    mobileMenu = document.getElementById('mobile-menu');
+    mobileMenu = document.getElementById('mobile-menu-panel');
     mobileToggle = document.getElementById('mobile-menu-toggle');
-    mobileBackdrop = mobileMenu?.querySelector('.nav-mobile__backdrop');
-    mobileDrawer = mobileMenu?.querySelector('.nav-mobile__drawer');
-
-    // Scroll handler
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    mobileBackdrop = document.getElementById('nav-backdrop');
 
     // Theme toggle
     document.getElementById('theme-toggle')?.addEventListener('click', Theme.toggle);
 
     // Mobile menu toggle
-    mobileToggle?.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
+    mobileToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isOpen ? closeMenu() : openMenu();
+    });
 
     // Mobile backdrop click
     mobileBackdrop?.addEventListener('click', closeMenu);
 
-    // Mobile links close menu
-    document.querySelectorAll('.nav-mobile__link').forEach(link =>
-      link.addEventListener('click', closeMenu)
-    );
+    // Mobile links close menu and set active
+    document.querySelectorAll('.nav-mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+        const section = link.dataset.section;
+        if (section) handleLinkClick(section);
+      });
+    });
+
+    // Desktop nav links click handler
+    document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+      link.addEventListener('click', () => {
+        const section = link.dataset.section;
+        if (section) handleLinkClick(section);
+      });
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (isOpen && mobileMenu && !mobileMenu.contains(e.target) && mobileToggle && !mobileToggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeMenu();
+        mobileToggle?.focus();
+      }
+    });
 
     // Active section tracking
-    initSectionObserver();
+    initActiveTracking();
   }
 
-  function handleScroll() {
-    if (!header) return;
-    header.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
+  function handleLinkClick(sectionId) {
+    setActive(sectionId);
+    isClickScrolling = true;
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isClickScrolling = false;
+    }, 850);
   }
 
   function openMenu() {
     if (!mobileMenu) return;
     isOpen = true;
-    mobileMenu.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    mobileMenu.classList.add('is-open');
+    mobileBackdrop?.classList.add('is-open');
     mobileToggle?.setAttribute('aria-expanded', 'true');
-    mobileToggle?.setAttribute('aria-label', 'Close navigation');
-    // Focus first drawer item
-    setTimeout(() => mobileDrawer?.querySelector('a, button')?.focus(), 50);
-
-    // Keyboard: close on Escape
-    document.addEventListener('keydown', handleMenuKeydown);
+    mobileToggle?.setAttribute('aria-label', 'Close navigation menu');
+    const firstLink = mobileMenu.querySelector('a');
+    if (firstLink) firstLink.focus();
   }
 
   function closeMenu() {
     if (!mobileMenu) return;
     isOpen = false;
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
+    mobileMenu.classList.remove('is-open');
+    mobileBackdrop?.classList.remove('is-open');
     mobileToggle?.setAttribute('aria-expanded', 'false');
-    mobileToggle?.setAttribute('aria-label', 'Open navigation');
-    mobileToggle?.focus();
-    document.removeEventListener('keydown', handleMenuKeydown);
+    mobileToggle?.setAttribute('aria-label', 'Open navigation menu');
   }
 
-  function handleMenuKeydown(e) {
-    if (e.key === 'Escape') closeMenu();
+  function setActive(id) {
+    const desktopLinks = document.querySelectorAll('.nav-link[data-section]');
+    const mobileLinks = document.querySelectorAll('.nav-mobile-link[data-section]');
+    desktopLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
+    mobileLinks.forEach(l => l.classList.toggle('active', l.dataset.section === id));
   }
 
-  function initSectionObserver() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link[data-section], .nav-mobile__link[data-section]');
+  function initActiveTracking() {
+    const desktopLinks = document.querySelectorAll('.nav-link[data-section]');
+    const mobileLinks = document.querySelectorAll('.nav-mobile-link[data-section]');
 
-    if (!sections.length || !navLinks.length) return;
+    // If on a sub-page without hero, preserve page's active link
+    if (!document.getElementById('hero')) {
+      return;
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.dataset.section === id);
-          });
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    // Set initial active based on current hash or hero
+    const hash = window.location.hash.replace('#', '');
+    const validIds = NAV_CONFIG.map(item => item.id);
+    if (hash && validIds.includes(hash)) {
+      setActive(hash);
+    } else {
+      setActive('hero');
+    }
 
-    sections.forEach(s => observer.observe(s));
+    // High-performance scroll spy for section highlighting
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  return { init };
+  function updateActiveSection() {
+    if (isClickScrolling) return;
+
+    // Near top of document
+    if (window.scrollY < 180) {
+      setActive('hero');
+      return;
+    }
+
+    // Near bottom of document: activate contact
+    const docHeight = document.documentElement.scrollHeight;
+    const scrollBottom = window.innerHeight + window.scrollY;
+    if (scrollBottom >= docHeight - 70) {
+      setActive('contact');
+      return;
+    }
+
+    // Target elements ordered by vertical position on the page
+    const elements = [
+      { id: 'hero', el: document.getElementById('hero') },
+      { id: 'about', el: document.getElementById('about') },
+      { id: 'skills', el: document.getElementById('skills') },
+      { id: 'projects', el: document.getElementById('projects') },
+      { id: 'sql-showcase', el: document.getElementById('sql-showcase') || document.getElementById('expertise') },
+      { id: 'education', el: document.getElementById('education') },
+      { id: 'contact', el: document.getElementById('contact') }
+    ].filter(item => item.el !== null);
+
+    const readingLine = window.scrollY + 140; // line of reading focus below fixed navbar
+
+    let currentSectionId = 'hero';
+    for (const item of elements) {
+      const rect = item.el.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      if (top <= readingLine) {
+        currentSectionId = item.id;
+      }
+    }
+
+    setActive(currentSectionId);
+  }
+
+  return { init, setActive, config: NAV_CONFIG };
 })();
 
 
@@ -374,13 +468,21 @@ const ProjectRenderer = (() => {
     </article>`;
   }
 
-  function render(projects) {
-    const container = document.getElementById('projects-grid');
+  function render(projects, containerId = 'projects-grid') {
+    const container = document.getElementById(containerId);
     if (!container) return;
+    if (!projects || !projects.length) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-12) var(--space-4); color: var(--md-on-surface-variant);">
+          <p class="type-title-medium" style="margin-bottom: var(--space-2);">No projects found</p>
+          <p class="type-body-medium">Try selecting a different filter or check back later.</p>
+        </div>`;
+      return;
+    }
     container.innerHTML = projects.map((p, i) => renderCard(p, i)).join('');
   }
 
-  return { render };
+  return { render, renderCard };
 })();
 
 
@@ -432,6 +534,16 @@ const ProjectFilter = (() => {
         }
       });
     });
+
+    // Check URL parameter for filter
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialFilter = urlParams.get('filter');
+      if (initialFilter && filterMap[initialFilter]) {
+        const targetBtn = document.querySelector(`.projects-filters .chip-filter[data-filter="${initialFilter}"]`);
+        if (targetBtn) targetBtn.click();
+      }
+    } catch (_) {}
   }
 
   function updateActiveBtn(active) {
@@ -445,15 +557,23 @@ const ProjectFilter = (() => {
 
   function filterCards(filter) {
     const fn = filterMap[filter] || filterMap.all;
-    document.querySelectorAll('.project-card[data-project-id]').forEach(card => {
-      const project = window.PROJECTS.find(p => p.id === card.dataset.projectId);
+    let visibleCount = 0;
+    const cards = document.querySelectorAll('.project-card[data-project-id]');
+    cards.forEach(card => {
+      const project = window.PROJECTS?.find(p => p.id === card.dataset.projectId);
       if (!project) return;
       const show = fn(project);
       card.classList.toggle('hidden', !show);
+      if (show) visibleCount++;
     });
+
+    const statusEl = document.getElementById('projects-filter-status');
+    if (statusEl) {
+      statusEl.textContent = `Showing ${visibleCount} of ${cards.length} projects`;
+    }
   }
 
-  return { init };
+  return { init, filterCards };
 })();
 
 
@@ -491,16 +611,10 @@ const ProjectInteraction = (() => {
   function init(modalInstance) {
     modal = modalInstance;
 
-    document.getElementById('projects-grid')?.addEventListener('click', handleClick);
-    document.getElementById('projects-grid')?.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const card = e.target.closest('.project-card[data-project-id]');
-        if (card && e.target === card) {
-          e.preventDefault();
-          openProject(card.dataset.projectId);
-        }
-      }
-    });
+    document.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleKeydown);
+
+    checkInitialProjectOpen();
   }
 
   function handleClick(e) {
@@ -519,13 +633,33 @@ const ProjectInteraction = (() => {
     if (card) openProject(card.dataset.projectId);
   }
 
+  function handleKeydown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const card = e.target.closest('.project-card[data-project-id]');
+      if (card && e.target === card) {
+        e.preventDefault();
+        openProject(card.dataset.projectId);
+      }
+    }
+  }
+
   function openProject(id) {
-    const project = window.PROJECTS.find(p => p.id === id);
+    const project = window.PROJECTS?.find(p => p.id === id);
     if (!project || !modal) return;
     modal.open(project);
   }
 
-  return { init };
+  function checkInitialProjectOpen() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const projectId = params.get('project');
+      if (projectId) {
+        setTimeout(() => openProject(projectId), 300);
+      }
+    } catch (_) {}
+  }
+
+  return { init, openProject };
 })();
 
 
@@ -534,6 +668,7 @@ const ProjectInteraction = (() => {
    ═══════════════════════════════════════════════════════════ */
 
 const skills = [
+  // ── Programming ──────────────────────────────────────────
   {
     name: 'Python',
     category: 'programming',
@@ -544,7 +679,7 @@ const skills = [
     name: 'SQL',
     category: 'programming',
     logo: 'assets/skills/sql.svg',
-    logoAlt: 'SQL database icon'
+    logoAlt: 'Official SQL database logo'
   },
   {
     name: 'Java',
@@ -552,6 +687,8 @@ const skills = [
     logo: 'assets/skills/java.svg',
     logoAlt: 'Official Java logo'
   },
+
+  // ── Data Analysis & BI ────────────────────────────────────
   {
     name: 'Pandas',
     category: 'analysis',
@@ -577,6 +714,20 @@ const skills = [
     logoAlt: 'Official Scikit-learn logo'
   },
   {
+    name: 'DAX',
+    category: 'analysis',
+    logo: 'assets/skills/dax.svg',
+    logoAlt: 'DAX Data Analysis Expressions logo'
+  },
+  {
+    name: 'Power Query',
+    category: 'analysis',
+    logo: 'assets/skills/powerquery.svg',
+    logoAlt: 'Microsoft Power Query ETL logo'
+  },
+
+  // ── Visualization ─────────────────────────────────────────
+  {
     name: 'Power BI',
     category: 'visualization',
     logo: 'assets/skills/power-bi.svg',
@@ -589,17 +740,97 @@ const skills = [
     logoAlt: 'Official Matplotlib logo'
   },
   {
+    name: 'Seaborn',
+    category: 'visualization',
+    logo: 'assets/skills/seaborn.svg',
+    logoAlt: 'Official Seaborn visualization logo'
+  },
+  {
     name: 'Tableau',
     category: 'visualization',
     logo: 'assets/skills/tableau.svg',
     logoAlt: 'Official Tableau logo'
   },
+
+  // ── Web & APIs ────────────────────────────────────────────
+  {
+    name: 'FastAPI',
+    category: 'web',
+    logo: 'assets/skills/fastapi.svg',
+    logoAlt: 'Official FastAPI logo'
+  },
+  {
+    name: 'Node.js',
+    category: 'web',
+    logo: 'assets/skills/nodejs.svg',
+    logoAlt: 'Official Node.js logo'
+  },
+  {
+    name: 'Tailwind CSS',
+    category: 'web',
+    logo: 'assets/skills/tailwind.svg',
+    logoAlt: 'Official Tailwind CSS logo'
+  },
+
+  // ── Databases ─────────────────────────────────────────────
   {
     name: 'MySQL',
     category: 'database',
     logo: 'assets/skills/mysql.svg',
     logoAlt: 'Official MySQL logo'
   },
+  {
+    name: 'PostgreSQL',
+    category: 'database',
+    logo: 'assets/skills/postgresql.svg',
+    logoAlt: 'Official PostgreSQL logo'
+  },
+  {
+    name: 'MongoDB',
+    category: 'database',
+    logo: 'assets/skills/mongodb.svg',
+    logoAlt: 'Official MongoDB logo'
+  },
+  {
+    name: 'Supabase',
+    category: 'database',
+    logo: 'assets/skills/supabase.svg',
+    logoAlt: 'Official Supabase logo'
+  },
+
+  // ── Machine Learning & NLP ────────────────────────────────
+  {
+    name: 'TensorFlow',
+    category: 'ml',
+    logo: 'assets/skills/tensorflow.svg',
+    logoAlt: 'Official TensorFlow logo'
+  },
+  {
+    name: 'Keras',
+    category: 'ml',
+    logo: 'assets/skills/keras.svg',
+    logoAlt: 'Official Keras logo'
+  },
+  {
+    name: 'PyTorch',
+    category: 'ml',
+    logo: 'assets/skills/pytorch.svg',
+    logoAlt: 'Official PyTorch logo'
+  },
+  {
+    name: 'Hugging Face Transformers',
+    category: 'ml',
+    logo: 'assets/skills/huggingface.svg',
+    logoAlt: 'Official Hugging Face Transformers logo'
+  },
+  {
+    name: 'OpenCV',
+    category: 'ml',
+    logo: 'assets/skills/opencv.svg',
+    logoAlt: 'Official OpenCV logo'
+  },
+
+  // ── Tools & Deployment ────────────────────────────────────
   {
     name: 'Git',
     category: 'tools',
@@ -611,6 +842,12 @@ const skills = [
     category: 'tools',
     logo: 'assets/skills/github.svg',
     logoAlt: 'Official GitHub logo'
+  },
+  {
+    name: 'Docker',
+    category: 'tools',
+    logo: 'assets/skills/docker.svg',
+    logoAlt: 'Official Docker logo'
   },
   {
     name: 'Jupyter Notebook',
@@ -635,30 +872,6 @@ const skills = [
     category: 'tools',
     logo: 'assets/skills/pycharm.svg',
     logoAlt: 'Official JetBrains PyCharm logo'
-  },
-  {
-    name: 'TensorFlow',
-    category: 'ml',
-    logo: 'assets/skills/tensorflow.svg',
-    logoAlt: 'Official TensorFlow logo'
-  },
-  {
-    name: 'Keras',
-    category: 'ml',
-    logo: 'assets/skills/keras.svg',
-    logoAlt: 'Official Keras logo'
-  },
-  {
-    name: 'PyTorch',
-    category: 'ml',
-    logo: 'assets/skills/pytorch.svg',
-    logoAlt: 'Official PyTorch logo'
-  },
-  {
-    name: 'OpenCV',
-    category: 'ml',
-    logo: 'assets/skills/opencv.svg',
-    logoAlt: 'Official OpenCV logo'
   }
 ];
 
@@ -670,9 +883,10 @@ const Skills = (() => {
     programming: 'Programming',
     analysis: 'Data Analysis',
     visualization: 'Visualization',
-    database: 'Database',
-    tools: 'Tools',
-    ml: 'ML'
+    web: 'Web & APIs',
+    database: 'Databases',
+    ml: 'ML & NLP',
+    tools: 'Tools'
   };
 
   const customBadges = {
@@ -683,12 +897,22 @@ const Skills = (() => {
     'NumPy': 'Np',
     'Excel': 'Xl',
     'Scikit-learn': 'Sk',
+    'DAX': 'DAX',
+    'Power Query': 'PQ',
     'Power BI': 'PB',
     'Matplotlib': 'Mpl',
+    'Seaborn': 'Sbn',
     'Tableau': 'Tb',
+    'FastAPI': 'API',
+    'Node.js': 'Node',
+    'Tailwind CSS': 'TW',
     'MySQL': 'My',
+    'PostgreSQL': 'PG',
+    'MongoDB': 'MDB',
+    'Supabase': 'Supa',
     'Git': 'Git',
     'GitHub': 'GH',
+    'Docker': 'Doc',
     'Jupyter Notebook': 'JN',
     'Google Colab': 'Col',
     'VS Code': 'VS',
@@ -696,6 +920,7 @@ const Skills = (() => {
     'TensorFlow': 'TF',
     'Keras': 'Ker',
     'PyTorch': 'PT',
+    'Hugging Face Transformers': 'HF',
     'OpenCV': 'CV'
   };
 
@@ -1182,7 +1407,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render projects
   if (window.PROJECTS) {
-    ProjectRenderer.render(window.PROJECTS);
+    // 1. Homepage Projects Grid: strictly display max 5 projects (preserve order)
+    const homeGrid = document.getElementById('projects-grid');
+    if (homeGrid) {
+      const homeProjects = window.PROJECTS.slice(0, 5);
+      ProjectRenderer.render(homeProjects, 'projects-grid');
+    }
+
+    // 2. Complete Projects Page Grid: display ALL projects
+    const allGrid = document.getElementById('all-projects-grid');
+    if (allGrid) {
+      ProjectRenderer.render(window.PROJECTS, 'all-projects-grid');
+    }
+
+    // Update dynamic count badges & pills
+    const totalPill = document.getElementById('projects-total-pill');
+    if (totalPill) {
+      totalPill.textContent = String(window.PROJECTS.length);
+    }
+    const countBadge = document.getElementById('all-projects-count-badge');
+    if (countBadge) {
+      countBadge.textContent = `${window.PROJECTS.length} Projects`;
+    }
+    const filterStatus = document.getElementById('projects-filter-status');
+    if (filterStatus) {
+      filterStatus.textContent = `Showing ${window.PROJECTS.length} projects`;
+    }
   }
 
   // Init modal

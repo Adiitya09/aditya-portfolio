@@ -121,6 +121,7 @@
 .hero__desc     { animation: slideUp 0.6s var(--ease-decelerate) both; animation-delay: 0.4s; }
 .hero__ctas     { animation: slideUp 0.6s var(--ease-decelerate) both; animation-delay: 0.5s; }
 .hero__links    { animation: slideUp 0.6s var(--ease-decelerate) both; animation-delay: 0.6s; }
+.hero__tech-strip { animation: slideUp 0.6s var(--ease-decelerate) both; animation-delay: 0.7s; }
 
 /* ── Number Counter ──────────────────────────────────────── */
 
@@ -171,6 +172,8 @@
   .hero__desc,
   .hero__ctas,
   .hero__links,
+  .hero__tech-strip,
+  .hero__social-link,
   .profile-card,
   .hero-profile__card-wrap.profile-card,
   .hero-profile__card-inner,

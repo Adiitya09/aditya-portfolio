@@ -2,7 +2,8 @@
    DESIGN TOKENS — Material You / MD3 — Purple/Violet Seed
    ============================================================ */
 
-:root {
+:root,
+[data-theme="light"] {
   /* ── Color Palette — Light Mode ─────────────────────────── */
   --md-background:               #FFFBFE;
   --md-on-background:            #1C1B1F;
@@ -163,6 +164,71 @@
   --blob-primary-light:   rgba(103, 80, 164, 0.12);
   --blob-secondary-light: rgba(98, 91, 113, 0.10);
   --blob-tertiary-light:  rgba(125, 82, 96, 0.10);
+
+  /* ── SQL Analytics Workspace Tokens (Light Mode) ───────── */
+  --sql-nav-bg:                  rgba(255, 255, 255, 0.88);
+  --sql-nav-border:              rgba(103, 80, 164, 0.16);
+  --sql-nav-shadow:              0 10px 30px rgba(103, 80, 164, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --sql-nav-header-border:       rgba(103, 80, 164, 0.12);
+  --sql-nav-item-num:            rgba(103, 80, 164, 0.65);
+  --sql-nav-item-hover-bg:       rgba(103, 80, 164, 0.08);
+  --sql-nav-item-active-bg:      linear-gradient(135deg, rgba(103, 80, 164, 0.12), rgba(103, 80, 164, 0.04));
+  --sql-nav-item-active-border:  rgba(103, 80, 164, 0.35);
+  --sql-nav-item-active-shadow:  0 2px 10px rgba(103, 80, 164, 0.12);
+  --sql-nav-item-active-color:   var(--md-primary);
+
+  --sql-panel-bg:                rgba(255, 255, 255, 0.94);
+  --sql-panel-border:            rgba(103, 80, 164, 0.18);
+  --sql-panel-shadow:            0 16px 40px rgba(103, 80, 164, 0.08), 0 2px 12px rgba(0, 0, 0, 0.04);
+  --sql-panel-hover-border:      rgba(103, 80, 164, 0.35);
+  --sql-panel-hover-shadow:      0 20px 48px rgba(103, 80, 164, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+
+  --sql-header-bg:               rgba(243, 237, 247, 0.95);
+  --sql-header-border:           rgba(103, 80, 164, 0.12);
+
+  --sql-editor-bg:               #F5F2F8;
+  --sql-editor-border:           rgba(103, 80, 164, 0.14);
+  --sql-editor-lines:            #625B71;
+
+  --sql-copy-bg:                 rgba(103, 80, 164, 0.08);
+  --sql-copy-border:             rgba(103, 80, 164, 0.2);
+  --sql-copy-color:              var(--md-on-surface-variant);
+  --sql-copy-hover-bg:           rgba(103, 80, 164, 0.16);
+
+  --sql-divider:                 linear-gradient(90deg, rgba(103, 80, 164, 0.22), rgba(103, 80, 164, 0.04) 80%);
+
+  --sql-insight-bg:              rgba(103, 80, 164, 0.06);
+  --sql-insight-border:          var(--md-primary);
+
+  --sql-chip-bg:                 rgba(103, 80, 164, 0.08);
+  --sql-chip-border:             rgba(103, 80, 164, 0.2);
+  --sql-chip-color:              var(--md-primary);
+
+  /* SQL Syntax Highlighting - Light Mode */
+  --sql-syn-kw:                  #6750A4;
+  --sql-syn-fn:                  #005FB8;
+  --sql-syn-str:                 #137333;
+  --sql-syn-col:                 #9A4200;
+  --sql-syn-num:                 #B3261E;
+
+  /* ── Project Card Tokens (Light Mode) ───────────────────── */
+  --project-card-bg:             var(--md-surface-container);
+  --project-card-border:         var(--md-outline-variant);
+  --project-card-visual-border:  var(--md-outline-variant);
+  --project-card-shadow:         0 4px 16px rgba(28, 27, 31, 0.06);
+  --project-card-shadow-hover:   0 8px 24px rgba(28, 27, 31, 0.09);
+
+  /* ── Hero Component Tokens (Light Mode) ─────────────────── */
+  --hero-tech-color:             var(--md-on-surface);
+  --hero-tech-dot-color:         var(--md-outline);
+  --hero-tech-dot-opacity:       0.6;
+  --hero-social-color:           var(--md-on-surface);
+  --hero-social-hover-color:     var(--md-primary);
+  --hero-social-hover-bg:        rgba(103, 80, 164, 0.08);
+  --hero-social-hover-border:    rgba(103, 80, 164, 0.24);
+  --hero-social-hover-shadow:    0 2px 8px rgba(103, 80, 164, 0.12);
+  --hero-btn-outlined-border:    var(--md-outline);
+  --hero-btn-outlined-hover-bg:  rgba(103, 80, 164, 0.06);
 }
 
 /* ── Dark Mode Tokens ────────────────────────────────────── */
@@ -215,4 +281,69 @@
   --blob-primary-light:   rgba(208, 188, 255, 0.08);
   --blob-secondary-light: rgba(204, 194, 220, 0.07);
   --blob-tertiary-light:  rgba(239, 184, 200, 0.07);
+
+  /* ── SQL Analytics Workspace Tokens (Dark Mode) ────────── */
+  --sql-nav-bg:                  rgba(18, 18, 28, 0.78);
+  --sql-nav-border:              rgba(187, 134, 252, 0.18);
+  --sql-nav-shadow:              0 12px 32px rgba(0, 0, 0, 0.4), 0 0 24px rgba(187, 134, 252, 0.05);
+  --sql-nav-header-border:       rgba(187, 134, 252, 0.12);
+  --sql-nav-item-num:            rgba(187, 134, 252, 0.55);
+  --sql-nav-item-hover-bg:       rgba(187, 134, 252, 0.08);
+  --sql-nav-item-active-bg:      linear-gradient(135deg, rgba(187, 134, 252, 0.18), rgba(208, 188, 255, 0.06));
+  --sql-nav-item-active-border:  rgba(187, 134, 252, 0.35);
+  --sql-nav-item-active-shadow:  0 0 18px rgba(187, 134, 252, 0.15);
+  --sql-nav-item-active-color:   var(--md-primary);
+
+  --sql-panel-bg:                rgba(18, 18, 28, 0.85);
+  --sql-panel-border:            rgba(187, 134, 252, 0.2);
+  --sql-panel-shadow:            0 20px 48px rgba(0, 0, 0, 0.5), 0 0 32px rgba(187, 134, 252, 0.1);
+  --sql-panel-hover-border:      rgba(187, 134, 252, 0.35);
+  --sql-panel-hover-shadow:      0 24px 54px rgba(0, 0, 0, 0.55), 0 0 38px rgba(187, 134, 252, 0.15);
+
+  --sql-header-bg:               rgba(30, 27, 46, 0.7);
+  --sql-header-border:           rgba(187, 134, 252, 0.12);
+
+  --sql-editor-bg:               rgba(12, 12, 20, 0.75);
+  --sql-editor-border:           rgba(187, 134, 252, 0.14);
+  --sql-editor-lines:            rgba(187, 134, 252, 0.4);
+
+  --sql-copy-bg:                 rgba(187, 134, 252, 0.08);
+  --sql-copy-border:             rgba(187, 134, 252, 0.2);
+  --sql-copy-color:              var(--md-on-surface-variant);
+  --sql-copy-hover-bg:           rgba(187, 134, 252, 0.18);
+
+  --sql-divider:                 linear-gradient(90deg, rgba(187, 134, 252, 0.22), rgba(187, 134, 252, 0.04) 80%);
+
+  --sql-insight-bg:              rgba(187, 134, 252, 0.06);
+  --sql-insight-border:          var(--md-primary);
+
+  --sql-chip-bg:                 rgba(187, 134, 252, 0.1);
+  --sql-chip-border:             rgba(187, 134, 252, 0.22);
+  --sql-chip-color:              var(--md-primary);
+
+  /* SQL Syntax Highlighting - Dark Mode */
+  --sql-syn-kw:                  #BB86FC;
+  --sql-syn-fn:                  #82AAFF;
+  --sql-syn-str:                 #C3E88D;
+  --sql-syn-col:                 #FFCB6B;
+  --sql-syn-num:                 #F78C6C;
+
+  /* ── Project Card Tokens (Dark Mode) ────────────────────── */
+  --project-card-bg:             var(--md-surface-container);
+  --project-card-border:         rgba(255, 255, 255, 0.06);
+  --project-card-visual-border:  rgba(255, 255, 255, 0.06);
+  --project-card-shadow:         var(--shadow-1);
+  --project-card-shadow-hover:   var(--shadow-4);
+
+  /* ── Hero Component Tokens (Dark Mode) ──────────────────── */
+  --hero-tech-color:             rgba(230, 225, 229, 0.82);
+  --hero-tech-dot-color:         var(--md-primary);
+  --hero-tech-dot-opacity:       0.65;
+  --hero-social-color:           rgba(230, 225, 229, 0.85);
+  --hero-social-hover-color:     #FFFFFF;
+  --hero-social-hover-bg:        rgba(187, 134, 252, 0.14);
+  --hero-social-hover-border:    rgba(187, 134, 252, 0.28);
+  --hero-social-hover-shadow:    0 4px 14px rgba(187, 134, 252, 0.2);
+  --hero-btn-outlined-border:    var(--md-outline);
+  --hero-btn-outlined-hover-bg:  rgba(208, 188, 255, 0.08);
 }

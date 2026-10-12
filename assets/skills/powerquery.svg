@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Microsoft Power Query</title>
+  <defs>
+    <linearGradient id="pq-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#107C41"/>
+      <stop offset="100%" stop-color="#0B552C"/>
+    </linearGradient>
+    <linearGradient id="pq-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#359B63"/>
+      <stop offset="100%" stop-color="#21A366"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Sheet -->
+  <rect x="12" y="16" width="60" height="74" rx="8" fill="url(#pq-grad-1)"/>
+  <rect x="22" y="30" width="40" height="8" rx="2" fill="#FFFFFF" opacity="0.9"/>
+  <rect x="22" y="44" width="24" height="6" rx="2" fill="#FFFFFF" opacity="0.6"/>
+  <rect x="22" y="56" width="34" height="6" rx="2" fill="#FFFFFF" opacity="0.6"/>
+  <rect x="22" y="68" width="28" height="6" rx="2" fill="#FFFFFF" opacity="0.6"/>
+  
+  <!-- Transformed Output Sheet -->
+  <rect x="56" y="38" width="60" height="74" rx="8" fill="url(#pq-grad-2)" filter="drop-shadow(0 4px 10px rgba(0,0,0,0.25))"/>
+  <rect x="66" y="52" width="40" height="8" rx="2" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="66" y="66" width="36" height="6" rx="2" fill="#FFFFFF" opacity="0.75"/>
+  <rect x="66" y="78" width="28" height="6" rx="2" fill="#FFFFFF" opacity="0.75"/>
+  <rect x="66" y="90" width="38" height="6" rx="2" fill="#FFFFFF" opacity="0.75"/>
+
+  <!-- Transformation Flow Symbol -->
+  <circle cx="48" cy="74" r="16" fill="#FFFFFF" filter="drop-shadow(0 2px 6px rgba(0,0,0,0.2))"/>
+  <path d="M42 74l6-6v4h6v4h-6v4z" fill="#107C41"/>
+</svg>

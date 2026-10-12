@@ -42,7 +42,8 @@ html, body {
 }
 
 .project-card:hover {
-  border-color: var(--md-primary);
+  border-color: var(--project-card-border, var(--md-outline-variant));
+  border-top-color: var(--md-primary);
 }
 
 /* ── Profile card hover polish (hero composition handles motion) ─ */
@@ -137,17 +138,9 @@ html, body {
   outline-offset: 3px;
 }
 
-/* ── Navigation active indicator dot ────────────────────── */
+/* ── Navigation active indicator: full rounded pill matching reference ── */
 .nav-link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: var(--md-primary);
+  content: none !important;
 }
 
 /* ── Back to top improvements ────────────────────────────── */
@@ -231,3 +224,441 @@ html, body {
     stroke-dashoffset: 320;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   ENHANCED CASE STUDY COMPONENTS (Material Design 3)
+   Visual Pipeline, Role Features, Technical Pillars, API Cards
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Visual OMR Pipeline Flow ────────────────────────────── */
+.pipeline-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.pipeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  background-color: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-1);
+  transition:
+    transform var(--duration-short4) var(--ease-standard),
+    box-shadow var(--duration-short4) var(--ease-standard),
+    border-color var(--duration-short4) var(--ease-standard);
+}
+
+.pipeline-step:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--md-primary);
+}
+
+.pipeline-step__num {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-size: var(--type-label-large);
+  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pipeline-step__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pipeline-step__title {
+  font-size: var(--type-title-small);
+  font-weight: var(--weight-bold);
+  color: var(--md-on-surface);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  line-height: var(--leading-tight);
+}
+
+.pipeline-step__tag {
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background-color: rgba(103, 80, 164, 0.12);
+  color: var(--md-primary);
+  letter-spacing: 0.02em;
+}
+
+[data-theme="dark"] .pipeline-step__tag {
+  background-color: rgba(208, 188, 255, 0.16);
+  color: var(--md-primary);
+}
+
+.pipeline-step__desc {
+  font-size: var(--type-body-small);
+  color: var(--md-on-surface-variant);
+  line-height: var(--leading-body);
+  margin-top: 4px;
+}
+
+.pipeline-step__code {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  background-color: var(--md-surface-container-high);
+  color: var(--md-primary);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-top: 6px;
+  word-break: break-all;
+}
+
+.pipeline-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  color: var(--md-primary);
+  opacity: 0.85;
+}
+
+/* ── Role-Based Feature Cards ────────────────────────────── */
+.role-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.role-card {
+  background-color: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--duration-short4) var(--ease-standard),
+    box-shadow var(--duration-short4) var(--ease-standard),
+    border-color var(--duration-short4) var(--ease-standard);
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--md-primary);
+}
+
+.role-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.role-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background-color: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.role-card__title {
+  font-size: var(--type-title-small);
+  font-weight: var(--weight-bold);
+  color: var(--md-on-surface);
+  margin: 0;
+}
+
+.role-card__subtitle {
+  font-size: var(--type-label-small);
+  color: var(--md-primary);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  font-weight: var(--weight-semibold);
+}
+
+.role-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.role-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--type-body-small);
+  color: var(--md-on-surface-variant);
+  line-height: var(--leading-body);
+}
+
+.role-card__bullet {
+  color: var(--md-primary);
+  font-weight: var(--weight-bold);
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Technical Pillars Grid ──────────────────────────────── */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.pillar-card {
+  background-color: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--duration-short4) var(--ease-standard),
+    border-color var(--duration-short4) var(--ease-standard);
+}
+
+.pillar-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--md-primary);
+}
+
+.pillar-card__label {
+  font-size: var(--type-label-small);
+  font-weight: var(--weight-bold);
+  color: var(--md-primary);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.pillar-card__title {
+  font-size: var(--type-title-small);
+  font-weight: var(--weight-bold);
+  color: var(--md-on-surface);
+  margin-bottom: var(--space-2);
+}
+
+.pillar-card__desc {
+  font-size: var(--type-body-small);
+  color: var(--md-on-surface-variant);
+  line-height: var(--leading-body);
+}
+
+.pillar-card__footer {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--md-outline-variant);
+}
+
+/* ── Evaluation & Performance Grid ───────────────────────── */
+.eval-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.eval-card {
+  background-color: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-1);
+}
+
+.eval-card__badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.eval-card__badge--readme {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #b45309;
+}
+[data-theme="dark"] .eval-card__badge--readme {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+}
+
+.eval-card__badge--verified {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #047857;
+}
+[data-theme="dark"] .eval-card__badge--verified {
+  background-color: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+.eval-card__badge--tests {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #4338ca;
+}
+[data-theme="dark"] .eval-card__badge--tests {
+  background-color: rgba(99, 102, 241, 0.25);
+  color: #a5b4fc;
+}
+
+.eval-card__badge--factors {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #b91c1c;
+}
+[data-theme="dark"] .eval-card__badge--factors {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+.eval-card__title {
+  font-size: var(--type-title-small);
+  font-weight: var(--weight-bold);
+  color: var(--md-on-surface);
+  margin-bottom: var(--space-2);
+}
+
+.eval-card__body {
+  font-size: var(--type-body-small);
+  color: var(--md-on-surface-variant);
+  line-height: var(--leading-body);
+}
+
+.eval-card__list {
+  margin: var(--space-2) 0 0 0;
+  padding-left: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ── API Reference Cards ─────────────────────────────────── */
+.api-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.api-endpoint-card {
+  background-color: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: border-color var(--duration-short4) var(--ease-standard);
+}
+
+.api-endpoint-card:hover {
+  border-color: var(--md-primary);
+}
+
+.api-endpoint-header {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  background-color: var(--md-surface-container-high);
+  user-select: none;
+}
+
+.api-endpoint-header::-webkit-details-marker {
+  display: none;
+}
+
+.api-method-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs, 4px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.api-method-badge--post {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.api-method-badge--get {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.api-method-badge--delete {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.api-method-badge--put {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.api-route {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  color: var(--md-on-surface);
+}
+
+.api-purpose {
+  font-size: var(--type-label-small);
+  color: var(--md-on-surface-variant);
+  margin-left: auto;
+  font-weight: var(--weight-medium);
+}
+
+.api-endpoint-body {
+  padding: var(--space-4);
+  border-top: 1px solid var(--md-outline-variant);
+  font-size: var(--type-body-small);
+  color: var(--md-on-surface-variant);
+  line-height: var(--leading-body);
+}
+
+.api-snippet {
+  background-color: #1a1a24;
+  color: #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin-top: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+

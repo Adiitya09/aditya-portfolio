@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>DAX - Data Analysis Expressions</title>
+  <defs>
+    <linearGradient id="dax-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2C811"/>
+      <stop offset="100%" stop-color="#DDA000"/>
+    </linearGradient>
+    <linearGradient id="dax-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2B2930"/>
+      <stop offset="100%" stop-color="#1C1B1F"/>
+    </linearGradient>
+  </defs>
+  <!-- Card base -->
+  <rect x="14" y="14" width="100" height="100" rx="20" fill="url(#dax-dark)" stroke="url(#dax-gold)" stroke-width="4"/>
+  <!-- Formula fx symbol -->
+  <path d="M44 42c-5.5 0-8 3.5-9 8h-6v8h6v28h10V58h9v-8h-9c0-3 1.5-4 4.5-4h4.5v-8H44z" fill="url(#dax-gold)"/>
+  <path d="M66 54l10 16-11 18h12l5.5-9.5 5.5 9.5h12l-11-18 10-16H88l-5 8.5-5-8.5H66z" fill="#FFFFFF"/>
+</svg>

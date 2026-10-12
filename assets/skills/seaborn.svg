@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Seaborn</title>
+  <defs>
+    <linearGradient id="sb-ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C72B0"/>
+      <stop offset="50%" stop-color="#55A868"/>
+      <stop offset="100%" stop-color="#C44E52"/>
+    </linearGradient>
+    <linearGradient id="sb-band" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4C72B0" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#4C72B0" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circular plot badge -->
+  <circle cx="64" cy="64" r="54" fill="#F0F4F8" stroke="#D1DCE5" stroke-width="2"/>
+  <!-- Statistical Confidence Band -->
+  <path d="M22 84 C38 84, 46 36, 64 36 C82 36, 90 76, 106 76 L106 88 C90 88, 82 48, 64 48 C46 48, 38 96, 22 96 Z" fill="url(#sb-band)"/>
+  <!-- Primary Trend Waveform (The Seaborn S-curve) -->
+  <path d="M22 90 C38 90, 46 42, 64 42 C82 42, 90 82, 106 82" fill="none" stroke="url(#sb-ribbon)" stroke-width="8" stroke-linecap="round"/>
+  <!-- Scatter Plot Data Points -->
+  <circle cx="34" cy="80" r="4.5" fill="#4C72B0"/>
+  <circle cx="48" cy="56" r="4" fill="#55A868"/>
+  <circle cx="64" cy="42" r="5" fill="#55A868"/>
+  <circle cx="80" cy="54" r="4.5" fill="#C44E52"/>
+  <circle cx="94" cy="74" r="4" fill="#C44E52"/>
+</svg>

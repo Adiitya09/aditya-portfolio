@@ -627,20 +627,144 @@ class ProjectModal {
     this._setSection('modal-problem', p.problem || (p.details && p.details.problem));
     this._setSection('modal-solution', p.solution || (p.details && p.details.solution));
 
-    // Data Workflow & Modeling
+    // Data Workflow & Modeling / OMR Pipeline
+    const workflowTitleEl = document.getElementById('modal-workflow-label');
+    if (workflowTitleEl) {
+      workflowTitleEl.textContent = p.workflowTitle || p.pipelineTitle || 'Data Workflow & Modeling';
+    }
     this._setSection('modal-workflow', p.dataWorkflow || p.pipeline || (p.details && (p.details.dataWorkflow || p.details.pipeline)));
+
+    // Optional Visual Pipeline Flow
+    const pipelineDiagEl = document.getElementById('modal-pipeline-diagram');
+    if (pipelineDiagEl) {
+      if (p.pipelineSteps && Array.isArray(p.pipelineSteps) && p.pipelineSteps.length) {
+        pipelineDiagEl.style.display = 'block';
+        pipelineDiagEl.innerHTML = `
+          <div class="pipeline-diagram" role="region" aria-label="OMR processing pipeline">
+            ${p.pipelineSteps.map((step, idx) => `
+              <div class="pipeline-step">
+                <div class="pipeline-step__num" aria-hidden="true">${step.num || (idx + 1)}</div>
+                <div class="pipeline-step__content">
+                  <div class="pipeline-step__title">
+                    <span>${this._esc(step.name)}</span>
+                    ${step.tag ? `<span class="pipeline-step__tag">${this._esc(step.tag)}</span>` : ''}
+                  </div>
+                  <p class="pipeline-step__desc">${this._esc(step.desc)}</p>
+                  ${step.technique ? `
+                    <div><span class="pipeline-step__code">${this._esc(step.technique)}</span></div>
+                  ` : ''}
+                </div>
+              </div>
+              ${idx < p.pipelineSteps.length - 1 ? `
+                <div class="pipeline-arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                  </svg>
+                </div>
+              ` : ''}
+            `).join('')}
+          </div>
+        `;
+        const wfSection = document.getElementById('modal-workflow-section');
+        if (wfSection) wfSection.style.display = 'block';
+      } else {
+        pipelineDiagEl.style.display = 'none';
+        pipelineDiagEl.innerHTML = '';
+      }
+    }
 
     // Key Features & Visualizations Grid
     const featEl = document.getElementById('modal-features');
     const featSection = document.getElementById('modal-features-section');
     const featLabel = document.getElementById('modal-features-label');
+    const roleFeatEl = document.getElementById('modal-role-features');
     const featuresList = p.features || (p.details && p.details.features);
     const vizList = p.visualizations || (p.details && p.details.visualizations);
+
+    // Update Features section label if custom label provided
+    if (featLabel) {
+      if (p.featuresLabel) {
+        featLabel.textContent = p.featuresLabel;
+      } else if (p.roleFeatures) {
+        featLabel.textContent = 'Role-Based Capabilities & Features';
+      } else if (featuresList && featuresList.length) {
+        featLabel.textContent = 'Key Features & Capabilities';
+      } else if (vizList && vizList.length) {
+        featLabel.textContent = 'Key Visualizations & Analysis Views';
+      } else {
+        featLabel.textContent = 'Key Features';
+      }
+    }
+
+    // Role-based features (Teacher vs Student)
+    if (roleFeatEl) {
+      if (p.roleFeatures && (p.roleFeatures.teacher || p.roleFeatures.student)) {
+        roleFeatEl.style.display = 'grid';
+        roleFeatEl.innerHTML = `
+          <div class="role-features-grid">
+            ${p.roleFeatures.teacher ? `
+              <div class="role-card">
+                <div class="role-card__header">
+                  <div class="role-card__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                      <path d="M6 6h10"></path>
+                      <path d="M6 10h10"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="role-card__title">Teacher Capabilities</h4>
+                    <span class="role-card__subtitle">Exam Management &amp; Analytics</span>
+                  </div>
+                </div>
+                <ul class="role-card__list">
+                  ${p.roleFeatures.teacher.map(f => `
+                    <li class="role-card__item">
+                      <span class="role-card__bullet">›</span>
+                      <div><strong>${this._esc(f.title)}:</strong> ${this._esc(f.desc)}</div>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+            ` : ''}
+            ${p.roleFeatures.student ? `
+              <div class="role-card">
+                <div class="role-card__header">
+                  <div class="role-card__icon" aria-hidden="true" style="background:var(--md-secondary-container);color:var(--md-on-secondary-container);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                      <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="role-card__title">Student Capabilities</h4>
+                    <span class="role-card__subtitle">Submission &amp; Self-Analysis</span>
+                  </div>
+                </div>
+                <ul class="role-card__list">
+                  ${p.roleFeatures.student.map(f => `
+                    <li class="role-card__item">
+                      <span class="role-card__bullet">›</span>
+                      <div><strong>${this._esc(f.title)}:</strong> ${this._esc(f.desc)}</div>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        if (featSection) featSection.style.display = 'block';
+      } else {
+        roleFeatEl.style.display = 'none';
+        roleFeatEl.innerHTML = '';
+      }
+    }
 
     if (featEl && featSection) {
       if (featuresList && featuresList.length) {
         featSection.style.display = 'block';
-        if (featLabel) featLabel.textContent = 'Key Features & Capabilities';
+        featEl.style.display = 'grid';
         featEl.innerHTML = featuresList.map(f => `
           <div class="feature-card">
             <span class="feature-card__number">${this._esc(f.num || '')}</span>
@@ -650,15 +774,19 @@ class ProjectModal {
         `).join('');
       } else if (vizList && vizList.length) {
         featSection.style.display = 'block';
-        if (featLabel) featLabel.textContent = 'Key Visualizations & Analysis Views';
+        featEl.style.display = 'grid';
         featEl.innerHTML = vizList.map((v, idx) => `
           <div class="feature-card">
             <span class="feature-card__number">${String(idx + 1).padStart(2, '0')}</span>
             <p class="feature-card__desc" style="color:var(--md-on-surface);font-weight:var(--weight-medium);">${this._esc(typeof v === 'string' ? v : v.desc || v.title)}</p>
           </div>
         `).join('');
-      } else {
+      } else if (!p.roleFeatures) {
         featSection.style.display = 'none';
+        featEl.innerHTML = '';
+      } else {
+        featEl.style.display = 'none';
+        featEl.innerHTML = '';
       }
     }
 
@@ -700,7 +828,144 @@ class ProjectModal {
     }
 
     // Technical Implementation
+    const implLabel = document.getElementById('modal-implementation-label');
+    if (implLabel) {
+      implLabel.textContent = p.implementationLabel || 'Technical Implementation';
+    }
     this._setSection('modal-implementation', p.implementation || (p.details && p.details.implementation));
+
+    // Structured Technical Implementation Pillars
+    const implGridEl = document.getElementById('modal-implementation-grid');
+    if (implGridEl) {
+      if (p.implementationPillars && Array.isArray(p.implementationPillars) && p.implementationPillars.length) {
+        implGridEl.style.display = 'grid';
+        implGridEl.innerHTML = `
+          <div class="pillars-grid">
+            ${p.implementationPillars.map(pillar => `
+              <div class="pillar-card">
+                <div class="pillar-card__label">${this._esc(pillar.domain)}</div>
+                <h4 class="pillar-card__title">${this._esc(pillar.title)}</h4>
+                <p class="pillar-card__desc">${this._esc(pillar.desc)}</p>
+                ${pillar.verifiedCode ? `
+                  <div class="pillar-card__footer">
+                    <span style="font-size:11px;font-weight:600;color:var(--md-primary);text-transform:uppercase;">Confirmed in source:</span>
+                    <p style="font-family:var(--font-mono, monospace);font-size:11px;color:var(--md-on-surface-variant);margin-top:2px;">${this._esc(pillar.verifiedCode)}</p>
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+        const implSection = document.getElementById('modal-implementation-section');
+        if (implSection) implSection.style.display = 'block';
+      } else {
+        implGridEl.style.display = 'none';
+        implGridEl.innerHTML = '';
+      }
+    }
+
+    // Evaluation & Performance Section
+    const evalSection = document.getElementById('modal-evaluation-section');
+    const evalContent = document.getElementById('modal-evaluation-content');
+    if (evalSection && evalContent) {
+      if (p.evaluation) {
+        evalSection.style.display = 'block';
+        const ev = p.evaluation;
+        evalContent.innerHTML = `
+          <div class="eval-grid">
+            ${ev.readmeReported ? `
+              <div class="eval-card">
+                <span class="eval-card__badge eval-card__badge--readme">README Reported</span>
+                <h4 class="eval-card__title">Reported Latency &amp; Speed</h4>
+                <div class="eval-card__body">
+                  <p>${this._esc(ev.readmeReported.desc)}</p>
+                  <ul class="eval-card__list">
+                    ${ev.readmeReported.metrics.map(m => `<li><strong>${this._esc(m.label)}:</strong> ${this._esc(m.val)}</li>`).join('')}
+                  </ul>
+                  <p style="font-size:11px;color:var(--md-outline);margin-top:8px;font-style:italic;">*Values documented in repository README; labeled as reported figures rather than independently benchmarked results.</p>
+                </div>
+              </div>
+            ` : ''}
+            ${ev.verifiedLogging ? `
+              <div class="eval-card">
+                <span class="eval-card__badge eval-card__badge--verified">Verified Code Metric</span>
+                <h4 class="eval-card__title">Runtime Instrumentation</h4>
+                <div class="eval-card__body">
+                  <p>${this._esc(ev.verifiedLogging.desc)}</p>
+                  <div class="api-snippet">${this._esc(ev.verifiedLogging.formula)}</div>
+                </div>
+              </div>
+            ` : ''}
+            ${ev.testSuite ? `
+              <div class="eval-card">
+                <span class="eval-card__badge eval-card__badge--tests">Automated Test Suite</span>
+                <h4 class="eval-card__title">${this._esc(ev.testSuite.title)}</h4>
+                <div class="eval-card__body">
+                  <p>${this._esc(ev.testSuite.desc)}</p>
+                  <ul class="eval-card__list">
+                    ${ev.testSuite.verifiedTests.map(t => `<li>${this._esc(t)}</li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            ` : ''}
+            ${ev.qualityFactors ? `
+              <div class="eval-card">
+                <span class="eval-card__badge eval-card__badge--factors">Operational Boundaries</span>
+                <h4 class="eval-card__title">Image Quality &amp; Evaluation Conditions</h4>
+                <div class="eval-card__body">
+                  <p>${this._esc(ev.qualityFactors.desc)}</p>
+                  <ul class="eval-card__list">
+                    ${ev.qualityFactors.factors.map(f => `<li>${this._esc(f)}</li>`).join('')}
+                  </ul>
+                  <p style="font-size:11px;color:var(--md-outline);margin-top:8px;font-style:italic;">No fabricated accuracy benchmark is claimed. Rigorous accuracy evaluation requires testing across a labeled multi-sheet ground-truth dataset.</p>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } else {
+        evalSection.style.display = 'none';
+        evalContent.innerHTML = '';
+      }
+    }
+
+    // Verified API Reference Section
+    const apiSection = document.getElementById('modal-api-section');
+    const apiContent = document.getElementById('modal-api-content');
+    if (apiSection && apiContent) {
+      if (p.apiEndpoints && Array.isArray(p.apiEndpoints) && p.apiEndpoints.length) {
+        apiSection.style.display = 'block';
+        apiContent.innerHTML = `
+          <div class="api-list">
+            ${p.apiEndpoints.map(ep => `
+              <details class="api-endpoint-card">
+                <summary class="api-endpoint-header">
+                  <span class="api-method-badge api-method-badge--${ep.method.toLowerCase()}">${ep.method}</span>
+                  <span class="api-route">${this._esc(ep.route)}</span>
+                  <span class="api-purpose">${this._esc(ep.purpose)}</span>
+                </summary>
+                <div class="api-endpoint-body">
+                  <p style="margin-bottom:var(--space-2);">${this._esc(ep.description)}</p>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:var(--space-3);margin-top:var(--space-2);">
+                    <div>
+                      <div style="font-size:11px;font-weight:600;color:var(--md-primary);text-transform:uppercase;">Request Schema / Parameters:</div>
+                      <div class="api-snippet">${this._esc(ep.requestInfo)}</div>
+                    </div>
+                    <div>
+                      <div style="font-size:11px;font-weight:600;color:var(--md-primary);text-transform:uppercase;">Expected Response:</div>
+                      <div class="api-snippet">${this._esc(ep.responseInfo)}</div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            `).join('')}
+          </div>
+        `;
+      } else {
+        apiSection.style.display = 'none';
+        apiContent.innerHTML = '';
+      }
+    }
 
     // Key Analytical Insights
     const insightsEl = document.getElementById('modal-insights');
@@ -733,6 +998,10 @@ class ProjectModal {
     }
 
     // Challenges & Learnings
+    const challLabel = document.getElementById('modal-challenges-label');
+    if (challLabel) {
+      challLabel.textContent = p.challengesTitle || 'Engineering Challenges';
+    }
     this._setSection('modal-challenges', p.challenges || (p.details && p.details.challenges));
     this._setSection('modal-learnings', p.learnings || (p.details && p.details.learnings));
 

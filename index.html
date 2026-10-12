@@ -52,12 +52,15 @@
     })();
 
     function handleProfileImgError(img) {
-      if (!img.dataset.triedAssets) {
-        img.dataset.triedAssets = '1';
-        img.src = 'assets/aditya-profile.png';
+      if (!img.dataset.triedImages) {
+        img.dataset.triedImages = '1';
+        img.src = 'images/aditya-professional-transparent.png';
       } else if (!img.dataset.triedPublic) {
         img.dataset.triedPublic = '1';
-        img.src = 'public/images/aditya-profile.png';
+        img.src = 'public/images/aditya-professional-transparent.png';
+      } else if (!img.dataset.triedFallback) {
+        img.dataset.triedFallback = '1';
+        img.src = 'images/aditya-profile-transparent.png';
       }
     }
   </script>
@@ -81,61 +84,61 @@
        HEADER / NAV
        ══════════════════════════════════════════════════════ -->
   <header class="site-header" role="banner">
-    <div class="container">
-      <nav class="nav-inner" aria-label="Primary navigation">
-        <!-- Logo -->
-        <a href="#" class="nav-logo" aria-label="Aditya Patil — Home">
-          <div class="nav-logo__mark" aria-hidden="true">AP</div>
-          <span>Aditya Patil</span>
+    <div class="nav-container">
+      <nav class="navbar" aria-label="Primary navigation">
+        <!-- Logo / Profile Badge -->
+        <a href="#hero" class="nav-brand" aria-label="Aditya Patil — Home">
+          <div class="nav-logo-circle" aria-hidden="true">A</div>
+          <span class="nav-brand-text">ADITYA PATIL</span>
         </a>
 
-        <!-- Desktop Nav Links -->
-        <ul class="nav-links" role="list" aria-label="Site sections">
-          <li><a href="#hero" class="nav-link" data-section="hero">Home</a></li>
-          <li><a href="#about" class="nav-link" data-section="about">About</a></li>
-          <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
-          <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
-          <li><a href="#sql-showcase" class="nav-link" data-section="sql-showcase">SQL</a></li>
-          <li><a href="#education" class="nav-link" data-section="education">Education</a></li>
-          <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-        </ul>
+        <!-- Desktop Navigation Links -->
+        <div class="nav-menu" role="menubar" aria-label="Site sections">
+          <a href="#hero" class="nav-link" data-section="hero" role="menuitem">Home</a>
+          <a href="#about" class="nav-link" data-section="about" role="menuitem">About</a>
+          <a href="#skills" class="nav-link" data-section="skills" role="menuitem">Skills</a>
+          <a href="#projects" class="nav-link" data-section="projects" role="menuitem">Projects</a>
+          <a href="#sql-showcase" class="nav-link" data-section="sql-showcase" role="menuitem">SQL</a>
+          <a href="#education" class="nav-link" data-section="education" role="menuitem">Education</a>
+          <a href="#contact" class="nav-link" data-section="contact" role="menuitem">Contact</a>
+        </div>
 
         <!-- Actions -->
         <div class="nav-actions">
-          <a href="#" class="btn btn-outlined" id="nav-resume-btn" aria-label="Download Resume">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          <a href="assets/resume/Aditya_Patil_Resume.pdf" class="btn-resume" download="Aditya_Patil_Resume.pdf" aria-label="Download Resume" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            Resume
+            <span>Resume</span>
           </a>
-          <div class="tooltip-wrapper" data-tooltip="Toggle theme">
-            <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" type="button">
-              <!-- Sun -->
-              <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-              <!-- Moon -->
-              <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            </button>
-          </div>
-          <!-- Mobile toggle -->
-          <button class="nav-menu-toggle" id="mobile-menu-toggle" aria-label="Open navigation" aria-expanded="false"
-            aria-controls="mobile-menu" type="button">
+
+          <button class="btn-theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" type="button">
+            <!-- Sun (visible in dark theme) -->
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <!-- Moon (visible in light theme) -->
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button class="nav-mobile-toggle" id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false"
+            aria-controls="mobile-menu-panel" type="button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="3" y1="6" x2="21" y2="6" />
@@ -144,48 +147,21 @@
             </svg>
           </button>
         </div>
+
+        <!-- Mobile Dropdown Panel -->
+        <div class="nav-mobile-panel" id="mobile-menu-panel" role="menu" aria-label="Mobile site sections">
+          <a href="#hero" class="nav-mobile-link" data-section="hero" role="menuitem">Home</a>
+          <a href="#about" class="nav-mobile-link" data-section="about" role="menuitem">About</a>
+          <a href="#skills" class="nav-mobile-link" data-section="skills" role="menuitem">Skills</a>
+          <a href="#projects" class="nav-mobile-link" data-section="projects" role="menuitem">Projects</a>
+          <a href="#sql-showcase" class="nav-mobile-link" data-section="sql-showcase" role="menuitem">SQL</a>
+          <a href="#education" class="nav-mobile-link" data-section="education" role="menuitem">Education</a>
+          <a href="#contact" class="nav-mobile-link" data-section="contact" role="menuitem">Contact</a>
+        </div>
       </nav>
     </div>
   </header>
-
-  <!-- Mobile Navigation Drawer -->
-  <div class="nav-mobile" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-    <div class="nav-mobile__backdrop"></div>
-    <div class="nav-mobile__drawer">
-      <div class="nav-mobile__header">
-        <span style="font-weight:var(--weight-medium);color:var(--md-on-surface);">Navigation</span>
-        <button class="btn-icon" id="mobile-close" aria-label="Close navigation"
-          onclick="document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow='';"
-          type="button">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      </div>
-      <nav class="nav-mobile__links" aria-label="Mobile site sections">
-        <a href="#hero" class="nav-mobile__link" data-section="hero">Home</a>
-        <a href="#about" class="nav-mobile__link" data-section="about">About</a>
-        <a href="#skills" class="nav-mobile__link" data-section="skills">Skills</a>
-        <a href="#projects" class="nav-mobile__link" data-section="projects">Projects</a>
-        <a href="#sql-showcase" class="nav-mobile__link" data-section="sql-showcase">SQL</a>
-        <a href="#education" class="nav-mobile__link" data-section="education">Education</a>
-        <a href="#contact" class="nav-mobile__link" data-section="contact">Contact</a>
-      </nav>
-      <div class="nav-mobile__actions">
-        <a href="#" class="btn btn-filled" style="width:100%;justify-content:center;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Download Resume
-        </a>
-      </div>
-    </div>
-  </div>
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
 
   <!-- ══════════════════════════════════════════════════════
        MAIN
@@ -225,7 +201,8 @@
             </p>
 
             <p class="hero__desc">
-              Hi, I'm Aditya — an aspiring Data Analyst focused on Python, SQL, Power BI, and Excel. I enjoy transforming raw data into meaningful analysis, interactive dashboards, and data-driven insights.
+              Hi, I'm Aditya — an aspiring Data Analyst focused on Python, SQL, Power BI, and Excel. I enjoy
+              transforming raw data into meaningful analysis, interactive dashboards, and data-driven insights.
             </p>
 
             <div class="hero__ctas">
@@ -267,16 +244,16 @@
                 </svg>
                 LinkedIn
               </a>
-              <a href="https://leetcode.com/u/Adiitya09/" target="_blank" rel="noopener noreferrer" class="hero__social-link"
-                id="hero-leetcode" aria-label="LeetCode Profile">
+              <a href="https://leetcode.com/u/Adiitya09/" target="_blank" rel="noopener noreferrer"
+                class="hero__social-link" id="hero-leetcode" aria-label="LeetCode Profile">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path
                     d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .666-1.607c.014-.015.03-.03.045-.045l3.559-3.81 4.41-4.717a1.375 1.375 0 0 0-1.023-2.275zm-1.896 9.428a1.378 1.378 0 0 0-1.378 1.378v4.388c0 .761.617 1.378 1.378 1.378h6.143a1.378 1.378 0 0 0 1.378-1.378 1.378 1.378 0 0 0-1.378-1.378h-4.765v-3.01a1.378 1.378 0 0 0-1.378-1.378z" />
                 </svg>
                 LeetCode
               </a>
-              <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer" class="hero__social-link"
-                id="hero-hackerrank" aria-label="HackerRank Profile">
+              <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer"
+                class="hero__social-link" id="hero-hackerrank" aria-label="HackerRank Profile">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path
                     d="M12 0a12 12 0 1 0 12 12A12.013 12.013 0 0 0 12 0zm3.882 17.514h-2.106v-3.79H10.22v3.79H8.118V6.486H10.22v4.062h3.556V6.486h2.106v11.028z" />
@@ -315,115 +292,19 @@
                   <div class="hero-profile__orb hero-profile__orb--3"></div>
                 </div>
               </div>
-              <!-- Profile visual — floating transparent portrait + holographic data growth graph -->
-              <div class="hero-profile__card-wrap"
-                id="hero-portrait-wrap"
-                role="img"
-                aria-label="Aditya Patil — Data Analyst illustrated portrait with holographic 3D bar chart above right hand">
+              <!-- Profile visual — floating transparent portrait -->
+              <div class="hero-profile__card-wrap" id="hero-portrait-wrap" role="img"
+                aria-label="Aditya Patil — Data Analyst illustrated portrait">
                 <div class="hero-profile__card-inner">
                   <!-- Ambient soft purple glow behind portrait -->
                   <div class="hero-profile__glow" aria-hidden="true"></div>
 
                   <!-- Transparent illustrated portrait -->
                   <div class="hero-profile__frame hero-portrait__frame-illustrated">
-                    <img
-                      src="public/images/aditya-profile.png"
-                      alt="Aditya Patil — Data Analyst illustrated portrait with holographic 3D bar chart above right hand"
-                      class="hero-profile__img hero-portrait__img-illustrated"
-                      id="hero-portrait-img"
-                      width="896"
-                      height="1200"
-                      loading="eager"
-                      decoding="async"
-                      onerror="handleProfileImgError(this)"
-                    />
-                  </div>
-
-                  <!-- Holographic 3D Bar Chart Overlay (floating above right palm only) -->
-                  <div class="hero-holo-chart" aria-hidden="true">
-                    <svg class="hero-holo-chart__svg" viewBox="0 0 896 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <defs>
-                        <!-- Holographic Purple/Lavender Radial Aura -->
-                        <radialGradient id="holoGlowGrad" cx="50%" cy="50%" r="50%">
-                          <stop offset="0%" stop-color="#E8DEF8" stop-opacity="0.30" />
-                          <stop offset="35%" stop-color="#6750A4" stop-opacity="0.20" />
-                          <stop offset="70%" stop-color="#7D5260" stop-opacity="0.07" />
-                          <stop offset="100%" stop-color="#6750A4" stop-opacity="0" />
-                        </radialGradient>
-
-                        <!-- Holographic Base Ring Gradient -->
-                        <linearGradient id="holoRingGrad" x1="170" y1="578" x2="350" y2="578" gradientUnits="userSpaceOnUse">
-                          <stop offset="0%" stop-color="#70F3FF" stop-opacity="0.25" />
-                          <stop offset="30%" stop-color="#E8DEF8" stop-opacity="0.80" />
-                          <stop offset="70%" stop-color="#D0BCFF" stop-opacity="0.85" />
-                          <stop offset="100%" stop-color="#70F3FF" stop-opacity="0.30" />
-                        </linearGradient>
-
-                        <!-- Scan Line Gradient -->
-                        <linearGradient id="holoScanGrad" x1="165" y1="0" x2="355" y2="0" gradientUnits="userSpaceOnUse">
-                          <stop offset="0%" stop-color="#70F3FF" stop-opacity="0" />
-                          <stop offset="20%" stop-color="#70F3FF" stop-opacity="0.85" />
-                          <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95" />
-                          <stop offset="80%" stop-color="#E8DEF8" stop-opacity="0.85" />
-                          <stop offset="100%" stop-color="#70F3FF" stop-opacity="0" />
-                        </linearGradient>
-
-                        <!-- Soft Bloom Filter -->
-                        <filter id="holoSoftBloom" x="-30%" y="-30%" width="160%" height="160%">
-                          <feGaussianBlur stdDeviation="4.5" result="blur" />
-                          <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                          </feMerge>
-                        </filter>
-
-                        <!-- Node Flare Filter -->
-                        <filter id="holoNodeFlare" x="-50%" y="-50%" width="200%" height="200%">
-                          <feGaussianBlur stdDeviation="3" result="blur" />
-                          <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                          </feMerge>
-                        </filter>
-                      </defs>
-
-                      <!-- Floating Holographic Group (above right hand) -->
-                      <g class="holo-chart-floating-group">
-                        <!-- Soft Ambient Glow behind the 3D bars -->
-                        <ellipse class="holo-ambient-glow" cx="260" cy="480" rx="115" ry="95" fill="url(#holoGlowGrad)" />
-
-                        <!-- Projector Base Ring Floating Just Above Right Palm -->
-                        <ellipse class="holo-base-ring" cx="260" cy="578" rx="88" ry="18" fill="none" stroke="url(#holoRingGrad)" stroke-width="1.8" filter="url(#holoSoftBloom)" />
-                        <ellipse cx="260" cy="578" rx="55" ry="11" fill="none" stroke="#E8DEF8" stroke-width="1" opacity="0.45" />
-
-                        <!-- Holographic Traveling Vertical Scan Line -->
-                        <line class="holo-scan-line" x1="168" y1="565" x2="352" y2="565" stroke="url(#holoScanGrad)" stroke-width="1.6" filter="url(#holoSoftBloom)" />
-
-                        <!-- Sequential Bar Peak Glow Nodes & Cyan Highlights -->
-                        <g class="holo-bar-nodes">
-                          <!-- Bar 1 (Leftmost cyan bar) -->
-                          <circle class="holo-bar-node holo-bar-node--1" cx="198" cy="520" r="3.2" fill="#70F3FF" filter="url(#holoNodeFlare)" />
-
-                          <!-- Bar 2 (Lavender bar) -->
-                          <circle class="holo-bar-node holo-bar-node--2" cx="236" cy="442" r="3.5" fill="#E8DEF8" filter="url(#holoNodeFlare)" />
-
-                          <!-- Bar 3 (Tallest central bar peak) -->
-                          <circle class="holo-bar-node holo-bar-node--3" cx="258" cy="396" r="4.2" fill="#FFFFFF" filter="url(#holoNodeFlare)" />
-                          <circle class="holo-beacon" cx="258" cy="396" r="9" fill="none" stroke="#D0BCFF" stroke-width="1.2" />
-
-                          <!-- Bar 4 (Violet/purple bar) -->
-                          <circle class="holo-bar-node holo-bar-node--4" cx="296" cy="450" r="3.5" fill="#D0BCFF" filter="url(#holoNodeFlare)" />
-
-                          <!-- Bar 5 (Deep violet bar) -->
-                          <circle class="holo-bar-node holo-bar-node--5" cx="336" cy="498" r="3.2" fill="#9A82DB" filter="url(#holoNodeFlare)" />
-                        </g>
-
-                        <!-- Ambient Floating Micro-Sparkles -->
-                        <circle class="holo-particle holo-particle--1" cx="178" cy="470" r="1.8" fill="#70F3FF" opacity="0.75" />
-                        <circle class="holo-particle holo-particle--2" cx="320" cy="418" r="1.6" fill="#E8DEF8" opacity="0.7" />
-                        <circle class="holo-particle holo-particle--3" cx="282" cy="365" r="1.5" fill="#70F3FF" opacity="0.6" />
-                      </g>
-                    </svg>
+                    <img src="assets/aditya-professional-transparent.png"
+                      alt="Aditya Patil — Data Analyst illustrated portrait"
+                      class="hero-profile__img hero-portrait__img-illustrated" id="hero-portrait-img" width="765"
+                      height="1024" loading="eager" decoding="async" onerror="handleProfileImgError(this)" />
                   </div>
                 </div>
               </div>
@@ -442,8 +323,8 @@
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item reveal">
-            <div class="stat-number" data-count="3" data-suffix="" aria-live="polite">00</div>
-            <div class="stat-label">Analytics Projects</div>
+            <div class="stat-number" data-count="5" data-suffix="+" aria-live="polite">00</div>
+            <div class="stat-label"> Projects</div>
           </div>
           <div class="stat-item reveal" style="transition-delay:0.1s">
             <div class="stat-number" data-count="200" data-suffix="+" aria-live="polite">0+</div>
@@ -503,7 +384,7 @@
           </div>
 
           <!-- Right: Workflow -->
-          <div class="reveal-right">
+          <div class="reveal-right" id="workflows">
             <div style="margin-bottom:var(--space-4);">
               <span class="type-label-medium"
                 style="letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--md-primary);">My
@@ -570,9 +451,10 @@
           <button class="skill-chip" data-category="programming" aria-pressed="false">Programming</button>
           <button class="skill-chip" data-category="analysis" aria-pressed="false">Data Analysis</button>
           <button class="skill-chip" data-category="visualization" aria-pressed="false">Visualization</button>
-          <button class="skill-chip" data-category="database" aria-pressed="false">Database</button>
+          <button class="skill-chip" data-category="web" aria-pressed="false">Web & APIs</button>
+          <button class="skill-chip" data-category="database" aria-pressed="false">Databases</button>
+          <button class="skill-chip" data-category="ml" aria-pressed="false">ML & NLP</button>
           <button class="skill-chip" data-category="tools" aria-pressed="false">Tools</button>
-          <button class="skill-chip" data-category="ml" aria-pressed="false">ML</button>
         </div>
 
         <!-- Dynamic Skills Grid -->
@@ -687,6 +569,20 @@
           <!-- Rendered by main.js -->
           <p style="color:var(--md-on-surface-variant); padding:var(--space-4);">Loading projects…</p>
         </div>
+
+        <!-- View All Projects CTA -->
+        <div class="projects-view-all reveal" id="projects-view-all-wrap">
+          <a href="projects.html" class="btn btn-filled btn-lg" id="view-all-projects-btn"
+            aria-label="View all projects in portfolio">
+            <span>View All Projects</span>
+            <span class="projects-count-pill" id="projects-total-pill" aria-hidden="true">7</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -694,6 +590,7 @@
          SQL & DATA ANALYSIS
          ════════════════════════════════════════════════════ -->
     <section id="sql-showcase" class="section section-alt" aria-labelledby="sql-heading">
+      <div id="expertise"></div>
       <div class="container">
         <div class="section-header">
           <span class="section-label">
@@ -707,7 +604,8 @@
           <h2 class="type-headline-large reveal" id="sql-heading">SQL &amp; DATA ANALYSIS</h2>
           <p class="type-body-large reveal"
             style="color:var(--md-on-surface-variant); max-width:64ch; margin-top:var(--space-3); transition-delay:0.1s;">
-            Writing analytical SQL queries to extract insights, analyze business data, and solve real-world data problems.
+            Writing analytical SQL queries to extract insights, analyze business data, and solve real-world data
+            problems.
           </p>
         </div>
 
@@ -816,7 +714,8 @@
                   <span class="sql-terminal__arrow" aria-hidden="true">↳</span>
                   <div class="sql-insight-callout__body">
                     <span class="sql-insight-badge">ANALYTICAL INSIGHT</span>
-                    <p class="sql-insight-text" id="sql-insight">Useful for analyzing customers by geographic segment.</p>
+                    <p class="sql-insight-text" id="sql-insight">Useful for analyzing customers by geographic segment.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1021,7 +920,8 @@
 
             <div class="edu-focus-box">
               <span class="edu-focus-label">Stream:</span>
-              <span class="edu-focus-text">Higher Secondary Science (PCM) • Quantitative &amp; Analytical Foundation</span>
+              <span class="edu-focus-text">Higher Secondary Science (PCM) • Quantitative &amp; Analytical
+                Foundation</span>
             </div>
           </div>
 
@@ -1029,7 +929,8 @@
             <div class="type-label-small"
               style="margin-bottom:var(--space-1); opacity:0.75; letter-spacing:var(--tracking-wider); text-transform:uppercase;">
               Score</div>
-            <div style="font-size:1.85rem; font-weight:var(--weight-bold); line-height:1; color:var(--md-primary);">69.50%
+            <div style="font-size:1.85rem; font-weight:var(--weight-bold); line-height:1; color:var(--md-primary);">
+              69.50%
             </div>
             <div class="type-label-small" style="margin-top:var(--space-2); opacity:0.75;">2022 – 2023</div>
           </div>
@@ -1054,7 +955,8 @@
 
             <div class="edu-focus-box">
               <span class="edu-focus-label">Achievement:</span>
-              <span class="edu-focus-text">Distinction with 93.00% • Strong Mathematics &amp; Science Fundamentals</span>
+              <span class="edu-focus-text">Distinction with 93.00% • Strong Mathematics &amp; Science
+                Fundamentals</span>
             </div>
           </div>
 
@@ -1062,7 +964,8 @@
             <div class="type-label-small"
               style="margin-bottom:var(--space-1); opacity:0.75; letter-spacing:var(--tracking-wider); text-transform:uppercase;">
               Score</div>
-            <div style="font-size:1.85rem; font-weight:var(--weight-bold); line-height:1; color:var(--md-primary);">93.00%
+            <div style="font-size:1.85rem; font-weight:var(--weight-bold); line-height:1; color:var(--md-primary);">
+              93.00%
             </div>
             <div class="type-label-small" style="margin-top:var(--space-2); opacity:0.75;">2020 – 2021</div>
           </div>
@@ -1161,8 +1064,8 @@
               </svg>
               Download Resume
             </a>
-            <a href="https://github.com/Adiitya09" target="_blank" rel="noopener noreferrer" class="btn btn-tonal btn-lg"
-              id="cta-github">
+            <a href="https://github.com/Adiitya09" target="_blank" rel="noopener noreferrer"
+              class="btn btn-tonal btn-lg" id="cta-github">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path
                   d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
@@ -1177,16 +1080,16 @@
               </svg>
               LinkedIn
             </a>
-            <a href="https://leetcode.com/u/Adiitya09/" target="_blank" rel="noopener noreferrer" class="btn btn-tonal btn-lg"
-              id="cta-leetcode">
+            <a href="https://leetcode.com/u/Adiitya09/" target="_blank" rel="noopener noreferrer"
+              class="btn btn-tonal btn-lg" id="cta-leetcode">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path
                   d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .666-1.607c.014-.015.03-.03.045-.045l3.559-3.81 4.41-4.717a1.375 1.375 0 0 0-1.023-2.275zm-1.896 9.428a1.378 1.378 0 0 0-1.378 1.378v4.388c0 .761.617 1.378 1.378 1.378h6.143a1.378 1.378 0 0 0 1.378-1.378 1.378 1.378 0 0 0-1.378-1.378h-4.765v-3.01a1.378 1.378 0 0 0-1.378-1.378z" />
               </svg>
               LeetCode
             </a>
-            <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer" class="btn btn-tonal btn-lg"
-              id="cta-hackerrank">
+            <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer"
+              class="btn btn-tonal btn-lg" id="cta-hackerrank">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path
                   d="M12 0a12 12 0 1 0 12 12A12.013 12.013 0 0 0 12 0zm3.882 17.514h-2.106v-3.79H10.22v3.79H8.118V6.486H10.22v4.062h3.556V6.486h2.106v11.028z" />
@@ -1221,8 +1124,8 @@
         </div>
 
         <div class="footer-links" aria-label="Social links">
-          <a href="https://github.com/Adiitya09" target="_blank" rel="noopener noreferrer" class="footer-link" id="footer-github"
-            aria-label="GitHub">
+          <a href="https://github.com/Adiitya09" target="_blank" rel="noopener noreferrer" class="footer-link"
+            id="footer-github" aria-label="GitHub">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
@@ -1242,8 +1145,8 @@
                 d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .666-1.607c.014-.015.03-.03.045-.045l3.559-3.81 4.41-4.717a1.375 1.375 0 0 0-1.023-2.275zm-1.896 9.428a1.378 1.378 0 0 0-1.378 1.378v4.388c0 .761.617 1.378 1.378 1.378h6.143a1.378 1.378 0 0 0 1.378-1.378 1.378 1.378 0 0 0-1.378-1.378h-4.765v-3.01a1.378 1.378 0 0 0-1.378-1.378z" />
             </svg>
           </a>
-          <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer" class="footer-link"
-            id="footer-hackerrank" aria-label="HackerRank">
+          <a href="https://www.hackerrank.com/profile/Adiitya09" target="_blank" rel="noopener noreferrer"
+            class="footer-link" id="footer-hackerrank" aria-label="HackerRank">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M12 0a12 12 0 1 0 12 12A12.013 12.013 0 0 0 12 0zm3.882 17.514h-2.106v-3.79H10.22v3.79H8.118V6.486H10.22v4.062h3.556V6.486h2.106v11.028z" />
@@ -1292,8 +1195,10 @@
         </div>
 
         <!-- 2. Interactive Material You Project Gallery -->
-        <div class="modal__gallery-heading-wrap" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-2);">
-          <h3 class="type-label-medium" style="color:var(--md-primary);letter-spacing:var(--tracking-widest);text-transform:uppercase;">
+        <div class="modal__gallery-heading-wrap"
+          style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-2);">
+          <h3 class="type-label-medium"
+            style="color:var(--md-primary);letter-spacing:var(--tracking-widest);text-transform:uppercase;">
             Dashboard Preview
           </h3>
         </div>
@@ -1416,6 +1321,7 @@
             style="margin-bottom:var(--space-2);color:var(--md-on-surface);">Data Workflow &amp; Modeling</h3>
           <p class="type-body-medium" id="modal-workflow"
             style="color:var(--md-on-surface-variant);line-height:var(--leading-body);"></p>
+          <div id="modal-pipeline-diagram" style="display:none;margin-top:var(--space-4);"></div>
         </section>
 
         <!-- Key Features & Visualizations Grid -->
@@ -1423,6 +1329,7 @@
           style="margin-bottom:var(--space-6);display:none;">
           <h3 class="type-title-medium" id="modal-features-label"
             style="margin-bottom:var(--space-3);color:var(--md-on-surface);">Key Visualizations &amp; Features</h3>
+          <div id="modal-role-features" style="display:none;margin-bottom:var(--space-4);"></div>
           <div id="modal-features" class="features-grid"></div>
         </section>
 
@@ -1441,6 +1348,23 @@
             style="margin-bottom:var(--space-2);color:var(--md-on-surface);">Implementation</h3>
           <p class="type-body-medium" id="modal-implementation"
             style="color:var(--md-on-surface-variant);line-height:var(--leading-body);"></p>
+          <div id="modal-implementation-grid" style="display:none;margin-top:var(--space-4);"></div>
+        </section>
+
+        <!-- Evaluation & Performance -->
+        <section id="modal-evaluation-section" aria-labelledby="modal-evaluation-label"
+          style="margin-bottom:var(--space-6);display:none;">
+          <h3 class="type-title-medium" id="modal-evaluation-label"
+            style="margin-bottom:var(--space-3);color:var(--md-on-surface);">Evaluation &amp; Performance</h3>
+          <div id="modal-evaluation-content"></div>
+        </section>
+
+        <!-- Verified API Specifications -->
+        <section id="modal-api-section" aria-labelledby="modal-api-label"
+          style="margin-bottom:var(--space-6);display:none;">
+          <h3 class="type-title-medium" id="modal-api-label"
+            style="margin-bottom:var(--space-3);color:var(--md-on-surface);">Verified API Reference</h3>
+          <div id="modal-api-content"></div>
         </section>
 
         <!-- Key Insights -->
